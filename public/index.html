@@ -13,10 +13,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261121_26">
+  <link rel="stylesheet" href="style.css?v=20261121_27">
   <script defer src="vendor/qrcode.js"></script>
   <script defer src="vendor/jsQR.js"></script>
-  <script defer src="app.js?v=20261121_21"></script>
+  <script defer src="app.js?v=20261121_22"></script>
 </head>
 <body>
   <header class="hero compact-hero">
@@ -260,18 +260,16 @@
             <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.35); border-radius: 14px; padding: 16px 12px; text-align: center;">
               <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Win</div>
               <div style="font-size: 24px; font-weight: 900; color: var(--green); margin-top: 4px; white-space: nowrap;">1 Point</div>
-              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">Victory awarded per match &bull; Advances to next round</div>
             </div>
 
             <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid rgba(248, 250, 249, 0.12); border-radius: 14px; padding: 16px 12px; text-align: center;">
               <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Loss</div>
               <div style="font-size: 24px; font-weight: 900; color: var(--muted); margin-top: 4px; white-space: nowrap;">0 Points</div>
-              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">No draws in table tennis &bull; Knockout elimination</div>
             </div>
           </div>
 
           <!-- Format & Structure Overview -->
-          <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
+          <div class="conditions-overview-card" style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
             <h3 style="font-size: 16px; font-weight: 700; color: var(--snow); margin-bottom: 8px;">Tournament Format &amp; Knockout Structure (Single Table)</h3>
             <ul style="padding-left: 20px; font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0;">
               <li><strong>Single Table Setup:</strong> All tournament matches are played consecutively on <strong>Table 1 (Official Court)</strong>.</li>
@@ -286,9 +284,9 @@
 
           <!-- Stage by Stage Layout -->
           <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">The 3 Competition Stages (Sequential on Table 1)</h3>
-          <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+          <div class="conditions-stages-list" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             <!-- Stage 1 -->
-            <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
+            <div class="stage-card" style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
               <div style="font-weight: 800; font-size: 16px; color: var(--green);">Stage 1 — Preliminary Elimination (3 Draw Clashes &bull; 3 vs 3)</div>
               <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">
                 All 6 clubs enter a blind draw to determine 3 direct elimination pairings: <strong>Clash 1</strong>, <strong>Clash 2</strong>, and <strong>Clash 3</strong>. Each match is played as a single set of 11 points on Table 1. The 3 victorious clubs advance to Stage 2.
@@ -296,7 +294,7 @@
             </div>
 
             <!-- Stage 2 -->
-            <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid #f59e0b; border-radius: 12px; padding: 14px 18px;">
+            <div class="stage-card" style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid #f59e0b; border-radius: 12px; padding: 14px 18px;">
               <div style="font-weight: 800; font-size: 16px; color: #f59e0b;">Stage 2 — Direct Finalist Draw &amp; Semi-Final (1 vs 1)</div>
               <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">
                 The 3 advancing winners undergo a decisive draw: <strong>1 club is drawn directly to the Grand Finale</strong>! The other 2 clubs battle head-to-head in the <strong>Semi-Final match</strong> (single set to 11 points) on Table 1 to decide who joins them in the final.
@@ -304,52 +302,12 @@
             </div>
 
             <!-- Stage 3 -->
-            <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
+            <div class="stage-card" style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
               <div style="font-weight: 800; font-size: 16px; color: var(--green);">Stage 3 — The Grand Finale (Championship Decider)</div>
               <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">
                 The ultimate championship battle! The club that advanced directly via the draw faces the Semi-Final winner in a single decisive set to 11 points on Table 1 to crown the Inter-Club Champion!
               </p>
             </div>
-          </div>
-
-          <!-- Official Matchup Progression Table -->
-          <div class="row between" style="align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-            <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0;">Official Tournament Progression</h3>
-            <span class="badge confirmed" style="font-size: 11px;">Single Table (5 Total Matches in Order)</span>
-          </div>
-          
-          <div class="table-responsive">
-            <table class="conditions-table">
-              <thead>
-                <tr style="background: rgba(248, 250, 249, 0.08); border-bottom: 1px solid var(--line);">
-                  <th style="padding: 8px 6px; white-space: nowrap;">Stage</th>
-                  <th style="padding: 8px 6px; white-space: nowrap;">System</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 1</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 2</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 3 / Bye</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
-                  <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">Stage 1</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">Draw Knockout (3 vs 3)</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>Pair 1</strong> (Clash 1)</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>Pair 2</strong> (Clash 2)</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>Pair 3</strong> (Clash 3)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
-                  <td style="padding: 8px 6px; font-weight: 700; color: #f59e0b; white-space: nowrap;">Stage 2</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">Draw Bye &amp; Semi-Final</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;" colspan="2"><strong>Semi-Final Match (1 vs 1)</strong>: Winner A vs Winner B</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap; color: var(--green);"><strong>Direct Pass (Draw)</strong>: Winner C to Final</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">Stage 3</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">Grand Finale</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;" colspan="3"><strong>Championship Match</strong>: Direct Finalist vs Semi-Final Winner</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
 
           <!-- COLLAPSIBLE GENERAL TOURNAMENT RULES & CONDUCT -->
@@ -391,18 +349,16 @@
             <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.35); border-radius: 14px; padding: 14px 10px; text-align: center;">
               <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em;">فوز</div>
               <div style="font-size: clamp(16px, 4.5vw, 22px); font-weight: 900; color: var(--green); margin-top: 3px;">نقطة واحدة</div>
-              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">تُمنح للفائز في المباراة • والتأهل للدور التالي</div>
             </div>
 
             <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid rgba(248, 250, 249, 0.12); border-radius: 14px; padding: 14px 10px; text-align: center;">
               <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em;">خسارة</div>
               <div style="font-size: clamp(16px, 4.5vw, 22px); font-weight: 900; color: var(--muted); margin-top: 3px;">0 نقاط</div>
-              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">لا يوجد تعادل في تنس الطاولة • إقصاء مباشر</div>
             </div>
           </div>
 
           <!-- Format & Structure Overview in Arabic -->
-          <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
+          <div class="conditions-overview-card" style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
             <h3 style="font-size: 16px; font-weight: 700; color: var(--snow); margin-bottom: 8px;">نظام وبنية البطولة (الإقصاء المباشر والقرعة)</h3>
             <ul style="padding-right: 20px; padding-left: 0; font-size: 14px; color: var(--muted); line-height: 1.8; margin: 0;">
               <li><strong>طاولة واحدة للبطولة:</strong> تُلعب جميع مباريات البطولة بالتتابع على <strong>الطاولة الرئيسية الرسمية (الطاولة 1)</strong>.</li>
@@ -417,9 +373,9 @@
 
           <!-- The 3 Stages in Arabic -->
           <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">مراحل البطولة الثلاث (تتابعاً على الطاولة 1)</h3>
-          <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+          <div class="conditions-stages-list" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             <!-- Stage 1 -->
-            <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
+            <div class="stage-card" style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
               <div style="font-weight: 800; font-size: 16px; color: var(--green);">المرحلة 1 — التصفيات الإقصائية (3 مواجهات بالقرعة • 3 ضد 3)</div>
               <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">
                 تدخل الأندية الـ 6 في قرعة لتحديد 3 مباريات إقصائية: <strong>المواجهة 1</strong>، <strong>المواجهة 2</strong>، و<strong>المواجهة 3</strong>. تُلعب كل مباراة بشوط وحيد من 11 نقطة على الطاولة 1، وتتأهل الأندية الـ 3 الفائزة إلى المرحلة التالية.
@@ -427,7 +383,7 @@
             </div>
 
             <!-- Stage 2 -->
-            <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid #f59e0b; border-radius: 12px; padding: 14px 18px;">
+            <div class="stage-card" style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid #f59e0b; border-radius: 12px; padding: 14px 18px;">
               <div style="font-weight: 800; font-size: 16px; color: #f59e0b;">المرحلة 2 — قرعة التأهل المباشر ومباراة نصف النهائي (1 ضد 1)</div>
               <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">
                 تُجرى قرعة حاسمة بين الأندية الـ 3 الفائزة: <strong>نادٍ واحد يصعد مباشرة إلى النهائي الكبير بالقرعة</strong>! ويتنافس الناديان الآخران وجهاً لوجه في <strong>مباراة نصف النهائي (1 ضد 1)</strong> بشوط من 11 نقطة على الطاولة 1 لتحديد الطرف الثاني في النهائي.
@@ -435,52 +391,12 @@
             </div>
 
             <!-- Stage 3 -->
-            <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
+            <div class="stage-card" style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
               <div style="font-weight: 800; font-size: 16px; color: var(--green);">المرحلة 3 — النهائي الكبير (تتويج بطل البطولة)</div>
               <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">
                 المباراة الختامية الحاسمة للقب! يلتقي النادي الصاعد مباشرة بالقرعة ضد الفائز من مباراة نصف النهائي بشوط وحيد من 11 نقطة على الطاولة 1، ويُتوج الفائز بطلاً لبطولة تنس الطاولة بين الأندية!
               </p>
             </div>
-          </div>
-
-          <!-- Official Matchup Progression Table in Arabic -->
-          <div class="row between" style="align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-            <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0;">مسار وتدرج مباريات البطولة</h3>
-            <span class="badge confirmed" style="font-size: 11px;">طاولة واحدة (إجمالي 5 مباريات بالتتابع)</span>
-          </div>
-          
-          <div class="table-responsive arabic-table-wrap">
-            <table class="conditions-table arabic-table">
-              <thead>
-                <tr style="background: rgba(248, 250, 249, 0.08); border-bottom: 1px solid var(--line);">
-                  <th style="padding: 8px 6px; white-space: nowrap;">المرحلة</th>
-                  <th style="padding: 8px 6px; white-space: nowrap;">النظام</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 1</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 2</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 3 / التأهل المباشر</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
-                  <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">المرحلة 1</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">تصفيات إقصائية بالقرعة (3 ضد 3)</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>المواجهة 1</strong> (بالقرعة)</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>المواجهة 2</strong> (بالقرعة)</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>المواجهة 3</strong> (بالقرعة)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
-                  <td style="padding: 8px 6px; font-weight: 700; color: #f59e0b; white-space: nowrap;">المرحلة 2</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">قرعة التأهل المباشر ونصف النهائي</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;" colspan="2"><strong>مباراة نصف النهائي (1 ضد 1)</strong>: الفائز أ ضد الفائز ب</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap; color: var(--green);"><strong>تأهل مباشر بالقرعة</strong>: الفائز ج إلى النهائي</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">المرحلة 3</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">النهائي الكبير</td>
-                  <td style="padding: 8px 6px; text-align: center; white-space: nowrap;" colspan="3"><strong>مباراة اللقب</strong>: المتأهل مباشرة ضد الفائز من نصف النهائي</td>
-                </tr>
-              </tbody>
-            </table>
           </div>
 
           <!-- COLLAPSIBLE GENERAL TOURNAMENT RULES & CONDUCT in Arabic -->
@@ -502,7 +418,12 @@
           </details>
 
           <!-- Activity Responsible Protocol in Arabic -->
-          <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.3); border-radius: 16px; padding: 16px;">
+          <div class="protocol-card" style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.3); border-radius: 16px; padding: 16px;">
+            <h4 style="font-size: 15px; font-weight: 800; color: var(--green); margin: 0 0 6px;">بروتوكول مسح رمز الفوز مع حكم الطاولة</h4>
+            <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.7;">
+              عند نهاية كل مباراة على الطاولة، يقوم حكم الطاولة أو مسؤول النشاط بتأكيد الفائز وعرض <strong>رمز الفوز (+1 نقطة)</strong> لمسحه من قِبل النادي الفائز. تُحتسب النقطة فوراً في جدول الترتيب المباشر بمجرد تأكيد الحكم للنتيجة.
+            </p>
+          </div>
             <h4 style="font-size: 15px; font-weight: 800; color: var(--green); margin: 0 0 6px;">بروتوكول مسح رمز الفوز مع حكم الطاولة</h4>
             <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.7;">
               عند نهاية كل مباراة على الطاولة، يقوم حكم الطاولة أو مسؤول النشاط بتأكيد الفائز وعرض <strong>رمز الفوز (+1 نقطة)</strong> لمسحه من قِبل النادي الفائز. تُحتسب النقطة فوراً في جدول الترتيب المباشر بمجرد تأكيد الحكم للنتيجة.
