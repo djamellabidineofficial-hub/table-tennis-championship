@@ -1213,13 +1213,19 @@ async function loadAdmin() {
   await Promise.all([loadAdminChallenges(), loadAdminWins(), loadAdminClubs()]);
 }
 
-// Dynamic Round Matchups for Admin Generator (Single Table: 3 Sequential Matches per Round)
+// Dynamic Round Matchups for Admin Generator (Single Table: Knockout & Direct Bye Draw System)
 const ROUND_MATCHUPS = {
-  "Round 1 (Opening Clash)": ["Match 1 (T1 vs T6)", "Match 2 (T2 vs T5)", "Match 3 (T3 vs T4)"],
-  "Round 2 (Rotation Stage)": ["Match 1 (T5 vs T3)", "Match 2 (T1 vs T2)", "Match 3 (T6 vs T4)"],
-  "Round 3 (Mid-Tournament Battle)": ["Match 1 (T4 vs T2)", "Match 2 (T5 vs T6)", "Match 3 (T3 vs T1)"],
-  "Round 4 (Championship Push)": ["Match 1 (T2 vs T6)", "Match 2 (T1 vs T4)", "Match 3 (T3 vs T5)"],
-  "Round 5 (The Grand Finale)": ["Match 1 (T1 vs T5)", "Match 2 (T6 vs T3)", "Match 3 (T4 vs T2)"],
+  "Stage 1 — Elimination (3 Matches by Draw)": [
+    "Match 1 (Draw Clash 1)",
+    "Match 2 (Draw Clash 2)",
+    "Match 3 (Draw Clash 3)"
+  ],
+  "Stage 2 — Semi-Final (1 vs 1)": [
+    "Semi-Final Match (1 vs 1)"
+  ],
+  "Stage 3 — Grand Finale": [
+    "Championship Match (Direct Finalist vs Semi-Final Winner)"
+  ]
 };
 
 const roundSelect = $("#admin-round-select");
@@ -1227,7 +1233,7 @@ const matchSelect = $("#admin-match-select");
 
 roundSelect?.addEventListener("change", () => {
   const round = roundSelect.value;
-  const matches = ROUND_MATCHUPS[round] || ["Match 1 (T1 vs T6)", "Match 2 (T2 vs T5)", "Match 3 (T3 vs T4)"];
+  const matches = ROUND_MATCHUPS[round] || ["Match 1 (Draw Clash 1)", "Match 2 (Draw Clash 2)", "Match 3 (Draw Clash 3)"];
   if (matchSelect) {
     matchSelect.innerHTML = matches.map((m) => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
   }
@@ -1235,8 +1241,8 @@ roundSelect?.addEventListener("change", () => {
 
 // Quick 1-click generator for Match Winner (+1 pt)
 $("#btn-admin-win-qr")?.addEventListener("click", () => {
-  const round = roundSelect?.value || "Round 1 (Opening Clash)";
-  const match = matchSelect?.value || "Match 1 (T1 vs T6)";
+  const round = roundSelect?.value || "Stage 1 — Elimination (3 Matches by Draw)";
+  const match = matchSelect?.value || "Match 1 (Draw Clash 1)";
   createAdminChallenge(`${round} - ${match} (WIN)`, 1, "win");
 });
 

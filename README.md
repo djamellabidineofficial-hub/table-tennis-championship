@@ -27,7 +27,10 @@ An official digital competition platform designed for the Inter-Club Table Tenni
      - Deuce rule (at 10–10, must win by a 2-point lead).
      - Service alternates every 2 points (or every 1 point after deuce). Legal 16 cm vertical palm toss.
      - No volleys; free hand table contact fault rule; edge ball rules.
-   - **5-Round Rotating Schedule** (3 matches per round played sequentially on the single official table — 15 total tournament matches).
+   - **Tournament Format (Knockout & Direct Bye Draw)**:
+     - **Stage 1**: 3 Knockout clashes by draw (3 vs 3). 3 advancing winners.
+     - **Stage 2**: Blind draw sends 1 winner directly to Grand Finale; remaining 2 play Semi-Final (1 vs 1).
+     - **Stage 3**: Grand Finale (Direct Finalist vs Semi-Final Winner).
    - Dual-language support (English and Arabic).
    - Step-by-step Activity Responsible & Referee QR protocol instructions.
 
