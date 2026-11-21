@@ -1,4 +1,4 @@
-// Run the chess tournament competition server locally:
+// Run the ping pong tournament competition server locally:
 //   node local-server.js      then open http://localhost:3000
 const http = require("http");
 const fs = require("fs");
@@ -13,7 +13,7 @@ if (fs.existsSync(envFile)) {
     if (m && !process.env[m[1]]) process.env[m[1]] = m[2];
   }
 }
-if (!process.env.QR_SECRET) process.env.QR_SECRET = "chess_tournament_secret_key_2026";
+if (!process.env.QR_SECRET) process.env.QR_SECRET = "pingpong_tournament_secret_key_2026";
 if (!process.env.ADMIN_TOKEN) process.env.ADMIN_TOKEN = "eco-aware can access the admin mode";
 
 const DATA_FILE = process.env.DATA_FILE || path.join(__dirname, "data.json");
@@ -109,9 +109,9 @@ http
   })
   .listen(PORT, () => {
     console.log(`====================================================`);
-    console.log(`♟️ Six Clubs Chess Championship Platform Running!`);
+    console.log(`🏓 Six Clubs Ping Pong Championship Platform Running!`);
     console.log(`URL: http://localhost:${PORT}`);
-    console.log(`Arbiter Admin Token: ${process.env.ADMIN_TOKEN}`);
+    console.log(`Referee Admin Token: ${process.env.ADMIN_TOKEN}`);
     console.log(`Data persists in: ${DATA_FILE}`);
     console.log(`====================================================`);
   });

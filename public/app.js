@@ -1,7 +1,7 @@
 const IS_STATIC_HOST = window.location.hostname.endsWith("github.io") || window.location.protocol === "file:";
 const API_BASE = IS_STATIC_HOST ? "" : "/api";
 
-const CLIENT_DB_KEY = "chess_championship_db_v3";
+const CLIENT_DB_KEY = "pingpong_championship_db_v1";
 
 const DEFAULT_LOCAL_CLUBS = [];
 
@@ -9,6 +9,7 @@ const clientStore = {
   getDb() {
     try {
       // Clear legacy storage keys from previous tests
+      localStorage.removeItem("chess_championship_db_v3");
       localStorage.removeItem("chess_championship_db_v2");
       localStorage.removeItem("chess_championship_db");
     } catch {}
@@ -73,7 +74,7 @@ const clientStore = {
         slot: slot || "",
         points: 0,
         wins: 0,
-        draws: 0,
+        played: 0,
         registeredAt: new Date().toISOString()
       };
 
@@ -121,7 +122,7 @@ const clientStore = {
           slot: club.slot || "",
           points: club.points || 0,
           wins: club.wins || 0,
-          draws: club.draws || 0
+          played: club.played || 0
         }
       };
     }
@@ -136,8 +137,8 @@ const clientStore = {
       const confirmedScans = (db.scans || []).filter(s => s.status === "confirmed");
       const clubScans = confirmedScans.filter(s => s.clubId === club.id || s.username === club.username || s.clubId === club.username);
       const pts = clubScans.reduce((sum, s) => sum + (Number(s.points) || 0), 0);
-      const wins = clubScans.filter(s => s.outcome === "win" || s.points === 2).length;
-      const draws = clubScans.filter(s => s.outcome === "draw" || s.points === 1).length;
+      const wins = clubScans.filter(s => s.outcome === "win" || s.points === 1 || s.points === 2).length;
+      const played = clubScans.length;
       const clubInfo = {
         id: club.id || clubId,
         username: club.username || club.id || clubId,
@@ -145,7 +146,7 @@ const clientStore = {
         slot: club.slot || "",
         points: pts,
         wins: wins,
-        draws: draws
+        played: played
       };
       return {
         user: clubInfo,
@@ -159,8 +160,8 @@ const clientStore = {
       const rows = db.clubs.map(c => {
         const clubScans = confirmedScans.filter(s => s.clubId === c.id || s.username === c.username || s.clubId === c.username);
         const pts = clubScans.reduce((sum, s) => sum + (Number(s.points) || 0), 0);
-        const wins = clubScans.filter(s => s.outcome === "win" || s.points === 2).length;
-        const draws = clubScans.filter(s => s.outcome === "draw" || s.points === 1).length;
+        const wins = clubScans.filter(s => s.outcome === "win" || s.points === 1 || s.points === 2).length;
+        const played = clubScans.length;
         return {
           id: c.id,
           name: c.name,
@@ -168,10 +169,10 @@ const clientStore = {
           slot: c.slot || "",
           points: pts,
           wins: wins,
-          draws: draws
+          played: played
         };
       });
-      rows.sort((a, b) => b.points - a.points || b.wins - a.wins || b.draws - a.draws || a.name.localeCompare(b.name));
+      rows.sort((a, b) => b.points - a.points || b.wins - a.wins || a.name.localeCompare(b.name));
       return {
         rows: rows.map((r, i) => ({ ...r, rank: i + 1, place: i + 1 }))
       };
@@ -186,7 +187,7 @@ const clientStore = {
       return { scans: clubScans };
     }
 
-    // 6. SCAN (Always PENDING until Admin confirms!)
+    // 6. SCAN (Always PENDING until Admin confirms! Ping pong = 1 point per win)
     if (cleanPath === "scan" && method === "POST") {
       const code = (body.code || "").trim();
       const tok = session.token;
@@ -195,8 +196,7 @@ const clientStore = {
       const club = db.clubs.find(c => c.id === clubId || c.username === clubId);
       if (!club) throw new Error("Please log in with your club account before scanning.");
 
-      const isDraw = code.toLowerCase().includes("draw") || code.includes("+1") || code.toUpperCase().includes("DRAW");
-      const pts = isDraw ? 1 : 2;
+      const pts = 1;
 
       if (!db.scans) db.scans = [];
 
@@ -206,7 +206,7 @@ const clientStore = {
       }
 
       const roundNum = myClubScans.length + 1;
-      const challengeTitle = `Round ${roundNum} ${isDraw ? "Draw (+1 pt)" : "Victory (+2 pts)"}`;
+      const challengeTitle = `Round ${roundNum} Victory (+1 pt)`;
 
       const scanRec = {
         id: "scan_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
@@ -214,9 +214,9 @@ const clientStore = {
         username: club.username || club.id,
         clubName: club.name,
         challenge: challengeTitle,
-        outcome: isDraw ? "draw" : "win",
+        outcome: "win",
         points: pts,
-        status: "pending", // PENDING until confirmed by arbiter
+        status: "pending", // PENDING until confirmed by referee
         createdAt: new Date().toISOString()
       };
 
@@ -230,7 +230,7 @@ const clientStore = {
         points: pts,
         challenge: challengeTitle,
         status: "pending",
-        message: "Match submission recorded! Points will appear on the leaderboard once confirmed by the arbiter."
+        message: "Match victory recorded! 1 Point will appear on the leaderboard once confirmed by the referee."
       };
     }
 
@@ -306,31 +306,56 @@ function formatPoints(pts) {
 }
 
 const session = {
-  get token() { try { return localStorage.getItem("chess_token"); } catch { return null; } },
-  set token(v) { try { v ? localStorage.setItem("chess_token", v) : localStorage.removeItem("chess_token"); } catch {} },
-  get user() { try { return localStorage.getItem("chess_user"); } catch { return null; } },
-  set user(v) { try { v ? localStorage.setItem("chess_user", v) : localStorage.removeItem("chess_user"); } catch {} },
+  get token() { try { return localStorage.getItem("pingpong_token") || localStorage.getItem("chess_token"); } catch { return null; } },
+  set token(v) {
+    try {
+      if (v) {
+        localStorage.setItem("pingpong_token", v);
+      } else {
+        localStorage.removeItem("pingpong_token");
+        localStorage.removeItem("chess_token");
+      }
+    } catch {}
+  },
+  get user() { try { return localStorage.getItem("pingpong_user") || localStorage.getItem("chess_user"); } catch { return null; } },
+  set user(v) {
+    try {
+      if (v) {
+        localStorage.setItem("pingpong_user", v);
+      } else {
+        localStorage.removeItem("pingpong_user");
+        localStorage.removeItem("chess_user");
+      }
+    } catch {}
+  },
   get club() {
     try {
-      const c = localStorage.getItem("chess_club_info");
+      const c = localStorage.getItem("pingpong_club_info") || localStorage.getItem("chess_club_info");
       return c ? JSON.parse(c) : null;
     } catch { return null; }
   },
   set club(v) {
     try {
-      v ? localStorage.setItem("chess_club_info", JSON.stringify(v)) : localStorage.removeItem("chess_club_info");
+      if (v) {
+        localStorage.setItem("pingpong_club_info", JSON.stringify(v));
+      } else {
+        localStorage.removeItem("pingpong_club_info");
+        localStorage.removeItem("chess_club_info");
+      }
     } catch {}
   },
 };
 
 const adminToken = {
-  get() { try { return sessionStorage.getItem("chess_admin_token") || localStorage.getItem("chess_admin_token"); } catch { return null; } },
+  get() { try { return sessionStorage.getItem("pingpong_admin_token") || localStorage.getItem("pingpong_admin_token") || sessionStorage.getItem("chess_admin_token") || localStorage.getItem("chess_admin_token"); } catch { return null; } },
   set(v) {
     try {
       if (v) {
-        sessionStorage.setItem("chess_admin_token", v);
-        localStorage.setItem("chess_admin_token", v);
+        sessionStorage.setItem("pingpong_admin_token", v);
+        localStorage.setItem("pingpong_admin_token", v);
       } else {
+        sessionStorage.removeItem("pingpong_admin_token");
+        localStorage.removeItem("pingpong_admin_token");
         sessionStorage.removeItem("chess_admin_token");
         localStorage.removeItem("chess_admin_token");
       }
@@ -579,7 +604,7 @@ async function renderClubDash(data) {
       const place = rankInfo.rank || rankInfo.place || (lb.rows.indexOf(rankInfo) + 1);
       $("#club-dash-rank").textContent = `#${place}`;
       $("#club-dash-wins").textContent = rankInfo.wins ?? 0;
-      $("#club-dash-draws").textContent = rankInfo.draws ?? 0;
+      if ($("#club-dash-played")) $("#club-dash-played").textContent = rankInfo.played ?? (rankInfo.wins ?? 0);
     }
   } catch {}
 
@@ -594,18 +619,17 @@ async function loadClubScansLog() {
     const data = await api("my-scans");
     const scans = data.scans || [];
     if (scans.length === 0) {
-      container.innerHTML = `<p class="hint" style="text-align: center; margin: 8px 0;">No matches recorded yet. Call the arbiter after your game and scan your result!</p>`;
+      container.innerHTML = `<p class="hint" style="text-align: center; margin: 8px 0;">No matches recorded yet. Call the referee after your match and scan your result!</p>`;
       return;
     }
 
     container.innerHTML = scans
       .map((s) => {
-        const isWin = s.outcome === "win" || s.points === 2;
         const timeStr = s.createdAt ? new Date(s.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
         return `
         <div class="win">
           <div>
-            <strong>${isWin ? "WIN (+2 PTS)" : "DRAW (+1 PT)"} - ${escapeHtml(s.challenge || "Match")}</strong>
+            <strong>WIN (+1 PT) - ${escapeHtml(s.challenge || "Match")}</strong>
             <div style="font-size: 11px; color: var(--muted);">${timeStr}</div>
           </div>
           <span class="badge ${s.status === "confirmed" ? "confirmed" : s.status === "rejected" ? "rejected" : "pending"}">${escapeHtml(s.status || "confirmed")}</span>
@@ -638,7 +662,7 @@ $("#login-form")?.addEventListener("submit", async (e) => {
     const data = await api("login", { method: "POST", body: { username, password } });
     session.token = data.token;
     session.user = data.username || data.user || username;
-    session.club = data.club || { id: username, username, name: data.username || username, slot: "", points: 0, wins: 0, draws: 0 };
+    session.club = data.club || { id: username, username, name: data.username || username, slot: "", points: 0, wins: 0, played: 0 };
     setMsg(authMsg, "");
 
     // Reveal main tabs
@@ -689,7 +713,7 @@ $("#register-form")?.addEventListener("submit", async (e) => {
     const data = await api("register", { method: "POST", body: { username, name, password, slot } });
     session.token = data.token;
     session.user = data.username || data.user || username;
-    session.club = data.club || { id: username, username, name, slot, points: 0, wins: 0, draws: 0 };
+    session.club = data.club || { id: username, username, name, slot, points: 0, wins: 0, played: 0 };
     setMsg(authMsg, "");
 
     // Reveal main tabs
@@ -756,26 +780,23 @@ function showScanSuccess(win, pts, challengeName) {
   if (resultError) resultError.hidden = true;
   if (resultSuccess) resultSuccess.hidden = false;
 
-  const isWin = pts === 2 || win?.outcome === "win";
   const isPending = win?.status === "pending";
 
   const resultTag = resultSuccess.querySelector(".result-tag");
   if (resultTag) {
-    resultTag.textContent = isPending ? "SUBMISSION PENDING ARBITER CONFIRMATION" : "CODE VERIFIED";
+    resultTag.textContent = isPending ? "SUBMISSION PENDING REFEREE CONFIRMATION" : "CODE VERIFIED";
   }
 
   if (successTitle) {
-    successTitle.textContent = isWin
-      ? (isPending ? "VICTORY SUBMITTED!" : "VICTORY VERIFIED!")
-      : (isPending ? "DRAW SUBMITTED!" : "DRAW REGISTERED!");
+    successTitle.textContent = isPending ? "VICTORY SUBMITTED!" : "VICTORY VERIFIED!";
   }
   if (successDesc) {
     successDesc.textContent = isPending
-      ? `Match recorded for ${challengeName || "Chess Game"}. Points will appear on the Leaderboard once confirmed by the Arbiter.`
-      : `Match points successfully recorded for ${challengeName || "Chess Game"}!`;
+      ? `Match recorded for ${challengeName || "Ping Pong Match"}. Points will appear on the Leaderboard once confirmed by the Referee.`
+      : `Match points successfully recorded for ${challengeName || "Ping Pong Match"}!`;
   }
   if (successPoints) {
-    successPoints.textContent = isPending ? `+${pts} Points (Pending Approval)` : `+${pts} Points Added to Leaderboard!`;
+    successPoints.textContent = isPending ? `+${pts || 1} Point (Pending Approval)` : `+${pts || 1} Point Added to Leaderboard!`;
   }
 
   codeResult.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -994,14 +1015,13 @@ async function loadLeaderboard() {
       } else {
         const maxPts = Math.max(1, ...rows.map(r => Number(r.points) || 0));
 
-        // Compute official competition ranking with tied ranks for equal score, wins, and draws
+        // Compute official competition ranking with tied ranks for equal score and wins
         let currentRank = 1;
         rows.forEach((r, idx) => {
           if (idx > 0) {
             const prev = rows[idx - 1];
             const isTied = (Number(r.points) || 0) === (Number(prev.points) || 0) &&
-                           (Number(r.wins) || 0) === (Number(prev.wins) || 0) &&
-                           (Number(r.draws) || 0) === (Number(prev.draws) || 0);
+                           (Number(r.wins) || 0) === (Number(prev.wins) || 0);
             if (!isTied) {
               currentRank = idx + 1;
             }
@@ -1089,8 +1109,7 @@ $("#admin-logout")?.addEventListener("click", () => {
 $("#refresh-admin")?.addEventListener("click", loadAdmin);
 
 // Standard Tournament QR Codes (For all rounds)
-const STD_WIN_CODE = "CHESS-WIN-2PTS";
-const STD_DRAW_CODE = "CHESS-DRAW-1PT";
+const STD_WIN_CODE = "PINGPONG-WIN-1PT";
 
 // Universal QR Code renderer (works with window.qrcode or SVG fallback)
 function renderQRToElement(el, text, size = 190) {
@@ -1116,12 +1135,8 @@ function renderQRToElement(el, text, size = 190) {
     }
   }
   // Static SVG fallback
-  if (text === STD_WIN_CODE) {
-    el.innerHTML = `<img src="./win_qr.svg" alt="Winner QR (+2 pts)" style="width:${size}px; height:${size}px; display:block; margin:0 auto;"/>`;
-    return;
-  }
-  if (text === STD_DRAW_CODE) {
-    el.innerHTML = `<img src="./draw_qr.svg" alt="Draw QR (+1 pt)" style="width:${size}px; height:${size}px; display:block; margin:0 auto;"/>`;
+  if (text === STD_WIN_CODE || text === "CHESS-WIN-2PTS") {
+    el.innerHTML = `<img src="./win_qr.svg" alt="Winner QR (+1 pt)" style="width:${size}px; height:${size}px; display:block; margin:0 auto;"/>`;
     return;
   }
 }
@@ -1136,21 +1151,13 @@ window.QRCode.CorrectLevel = { L: "L", M: "M", Q: "Q", H: "H" };
 
 function renderStandardQRs() {
   const winHolder = document.getElementById("standard-win-holder");
-  const drawHolder = document.getElementById("standard-draw-holder");
   const projWin = document.getElementById("projector-win-holder");
-  const projDraw = document.getElementById("projector-draw-holder");
 
   if (winHolder && !winHolder.querySelector("img") && !winHolder.querySelector("svg")) {
     renderQRToElement(winHolder, STD_WIN_CODE, 190);
   }
-  if (drawHolder && !drawHolder.querySelector("img") && !drawHolder.querySelector("svg")) {
-    renderQRToElement(drawHolder, STD_DRAW_CODE, 190);
-  }
   if (projWin && !projWin.querySelector("img") && !projWin.querySelector("svg")) {
     renderQRToElement(projWin, STD_WIN_CODE, 220);
-  }
-  if (projDraw && !projDraw.querySelector("img") && !projDraw.querySelector("svg")) {
-    renderQRToElement(projDraw, STD_DRAW_CODE, 220);
   }
 }
 
@@ -1168,7 +1175,7 @@ function downloadQRFromHolder(holderId, filename) {
   if (!url) return;
   const a = document.createElement("a");
   a.href = url;
-  a.download = filename || "chess_qr.png";
+  a.download = filename || "pingpong_qr.png";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1184,21 +1191,8 @@ document.getElementById("btn-copy-std-win")?.addEventListener("click", () => {
   }
 });
 
-document.getElementById("btn-copy-std-draw")?.addEventListener("click", () => {
-  navigator.clipboard?.writeText(STD_DRAW_CODE);
-  const btn = document.getElementById("btn-copy-std-draw");
-  if (btn) {
-    btn.textContent = "Copied!";
-    setTimeout(() => (btn.textContent = "Copy Code"), 2000);
-  }
-});
-
 document.getElementById("btn-download-std-win")?.addEventListener("click", () => {
-  downloadQRFromHolder("standard-win-holder", "chess_winner_qr_2pts.png");
-});
-
-document.getElementById("btn-download-std-draw")?.addEventListener("click", () => {
-  downloadQRFromHolder("standard-draw-holder", "chess_draw_qr_1pt.png");
+  downloadQRFromHolder("standard-win-holder", "pingpong_winner_qr_1pt.png");
 });
 
 // Fullscreen Projector Modal controls
@@ -1219,13 +1213,13 @@ async function loadAdmin() {
   await Promise.all([loadAdminChallenges(), loadAdminWins(), loadAdminClubs()]);
 }
 
-// Dynamic Round Matchups for Admin Generator
+// Dynamic Round Matchups for Admin Generator (Single Table: 3 Sequential Matches per Round)
 const ROUND_MATCHUPS = {
-  "Round 1 (Classic 10 min)": ["Match 1 (T1 vs T6)", "Match 2 (T2 vs T5)", "Match 3 (T3 vs T4)"],
-  "Round 2 (Duck Chess)": ["Match 1 (T5 vs T3)", "Match 2 (T1 vs T2)", "Match 3 (T6 vs T4)"],
-  "Round 3 (Giveaway Chess)": ["Match 1 (T4 vs T2)", "Match 2 (T5 vs T6)", "Match 3 (T3 vs T1)"],
-  "Round 4 (3-Check Chess)": ["Match 1 (T2 vs T6)", "Match 2 (T1 vs T4)", "Match 3 (T3 vs T5)"],
-  "Round 5 (Physical Relay Chess)": ["Match 1 (T1 vs T5)", "Match 2 (T6 vs T3)", "Match 3 (T4 vs T2)"],
+  "Round 1 (Opening Clash)": ["Match 1 (T1 vs T6)", "Match 2 (T2 vs T5)", "Match 3 (T3 vs T4)"],
+  "Round 2 (Rotation Stage)": ["Match 1 (T5 vs T3)", "Match 2 (T1 vs T2)", "Match 3 (T6 vs T4)"],
+  "Round 3 (Mid-Tournament Battle)": ["Match 1 (T4 vs T2)", "Match 2 (T5 vs T6)", "Match 3 (T3 vs T1)"],
+  "Round 4 (Championship Push)": ["Match 1 (T2 vs T6)", "Match 2 (T1 vs T4)", "Match 3 (T3 vs T5)"],
+  "Round 5 (The Grand Finale)": ["Match 1 (T1 vs T5)", "Match 2 (T6 vs T3)", "Match 3 (T4 vs T2)"],
 };
 
 const roundSelect = $("#admin-round-select");
@@ -1233,133 +1227,17 @@ const matchSelect = $("#admin-match-select");
 
 roundSelect?.addEventListener("change", () => {
   const round = roundSelect.value;
-  const matches = ROUND_MATCHUPS[round] || ["Match 1", "Match 2", "Match 3"];
+  const matches = ROUND_MATCHUPS[round] || ["Match 1 (T1 vs T6)", "Match 2 (T2 vs T5)", "Match 3 (T3 vs T4)"];
   if (matchSelect) {
     matchSelect.innerHTML = matches.map((m) => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
   }
 });
 
-// Dual QR Generator (Winner & Draw simultaneously)
-async function generateBothMatchQRs(round, match) {
-  const msgEl = $("#challenge-msg");
-  setMsg(msgEl, "Generating match QR codes...", true);
-  try {
-    const [winData, drawData] = await Promise.all([
-      api("admin/generate-qr", {
-        method: "POST",
-        body: {
-          title: `${round} - ${match} (WIN)`,
-          outcome: "win",
-          points: 2,
-          round,
-          board: match,
-        },
-      }),
-      api("admin/generate-qr", {
-        method: "POST",
-        body: {
-          title: `${round} - ${match} (DRAW)`,
-          outcome: "draw",
-          points: 1,
-          round,
-          board: match,
-        },
-      }),
-    ]);
-
-    setMsg(msgEl, `Both QR Codes (Winner +2 & Draw +1) generated for ${round} - ${match}!`, true);
-    displayDualLiveQR(winData, drawData, `${round} — ${match}`);
-    loadAdminChallenges();
-  } catch (err) {
-    setMsg(msgEl, err.message, false);
-  }
-}
-
-function displayDualLiveQR(winData, drawData, matchHeader) {
-  const card = $("#admin-dual-qr-card");
-  const winHolder = $("#dual-win-holder");
-  const drawHolder = $("#dual-draw-holder");
-  const header = $("#dual-match-header");
-  const winTitle = $("#dual-win-title");
-  const drawTitle = $("#dual-draw-title");
-  const winCode = $("#dual-win-code");
-  const drawCode = $("#dual-draw-code");
-
-  if (!card) return;
-
-  if (header && matchHeader) header.textContent = `${matchHeader} — Match QR Codes`;
-  if (winTitle && winData?.challenge) winTitle.textContent = winData.challenge.name;
-  if (drawTitle && drawData?.challenge) drawTitle.textContent = drawData.challenge.name;
-  if (winCode && winData?.challenge) winCode.textContent = winData.challenge.id;
-  if (drawCode && drawData?.challenge) drawCode.textContent = drawData.challenge.id;
-
-  if (winHolder && window.QRCode) {
-    winHolder.innerHTML = "";
-    new window.QRCode(winHolder, {
-      text: winData.qrPayload || winData.challenge.payload || winData.challenge.id,
-      width: 190,
-      height: 190,
-      colorDark: "#171A1F",
-      colorLight: "#FFFFFF",
-      correctLevel: window.QRCode.CorrectLevel.H,
-    });
-  }
-
-  if (drawHolder && window.QRCode) {
-    drawHolder.innerHTML = "";
-    new window.QRCode(drawHolder, {
-      text: drawData.qrPayload || drawData.challenge.payload || drawData.challenge.id,
-      width: 190,
-      height: 190,
-      colorDark: "#171A1F",
-      colorLight: "#FFFFFF",
-      correctLevel: window.QRCode.CorrectLevel.H,
-    });
-  }
-
-  const copyWinBtn = $("#btn-copy-dual-win");
-  const copyDrawBtn = $("#btn-copy-dual-draw");
-  if (copyWinBtn && winData?.challenge) {
-    copyWinBtn.onclick = () => {
-      navigator.clipboard?.writeText(winData.challenge.id || winData.qrPayload);
-      copyWinBtn.textContent = "Copied!";
-      setTimeout(() => (copyWinBtn.textContent = "Copy Win Code"), 2000);
-    };
-  }
-  if (copyDrawBtn && drawData?.challenge) {
-    copyDrawBtn.onclick = () => {
-      navigator.clipboard?.writeText(drawData.challenge.id || drawData.qrPayload);
-      copyDrawBtn.textContent = "Copied!";
-      setTimeout(() => (copyDrawBtn.textContent = "Copy Draw Code"), 2000);
-    };
-  }
-
-  card.hidden = false;
-  card.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
-$("#btn-admin-both-qr")?.addEventListener("click", () => {
-  const round = roundSelect?.value || "Round 1 (Classic 10 min)";
-  const match = matchSelect?.value || "Match 1";
-  generateBothMatchQRs(round, match);
-});
-
-$("#close-dual-qr")?.addEventListener("click", () => {
-  const card = $("#admin-dual-qr-card");
-  if (card) card.hidden = true;
-});
-
-// Quick 1-click generators
+// Quick 1-click generator for Match Winner (+1 pt)
 $("#btn-admin-win-qr")?.addEventListener("click", () => {
-  const round = roundSelect?.value || "Round 1 (Classic 10 min)";
-  const match = matchSelect?.value || "Match 1";
-  createAdminChallenge(`${round} - ${match} (WIN)`, 2, "win");
-});
-
-$("#btn-admin-draw-qr")?.addEventListener("click", () => {
-  const round = roundSelect?.value || "Round 1 (Classic 10 min)";
-  const match = matchSelect?.value || "Match 1";
-  createAdminChallenge(`${round} - ${match} (DRAW)`, 1, "draw");
+  const round = roundSelect?.value || "Round 1 (Opening Clash)";
+  const match = matchSelect?.value || "Match 1 (T1 vs T6)";
+  createAdminChallenge(`${round} - ${match} (WIN)`, 1, "win");
 });
 
 async function createAdminChallenge(name, points, outcome) {
@@ -1369,7 +1247,7 @@ async function createAdminChallenge(name, points, outcome) {
       method: "POST",
       body: { title: name, outcome, points },
     });
-    setMsg(msgEl, `QR Generated for ${name} (+${points} pts)!`, true);
+    setMsg(msgEl, `QR Generated for ${name} (+${points} pt)!`, true);
     displayAdminLiveQR(data.challenge, data.qrPayload);
     loadAdminChallenges();
   } catch (err) {
@@ -1386,10 +1264,9 @@ function displayAdminLiveQR(challenge, payload) {
 
   if (!card || !holder) return;
 
-  const isWin = challenge.outcome === "win";
   if (badge) {
-    badge.className = isWin ? "badge confirmed" : "badge pending";
-    badge.textContent = isWin ? "+2 Points Winner" : "+1 Point Draw";
+    badge.className = "badge confirmed";
+    badge.textContent = "+1 Point Winner";
   }
   if (title) title.textContent = challenge.name;
   if (code) code.textContent = challenge.id;
@@ -1437,7 +1314,7 @@ async function loadAdminChallenges() {
           <div class="row between">
             <div>
               <strong style="color: var(--snow); font-size: 14px;">${escapeHtml(c.name)}</strong>
-              <div style="font-size: 11px; color: var(--muted);">ID: <code>${escapeHtml(c.id)}</code> &bull; Claims: ${c.claimedCount || 0} / ${isWin ? 1 : 2}</div>
+              <div style="font-size: 11px; color: var(--muted);">ID: <code>${escapeHtml(c.id)}</code> &bull; Claims: ${c.claimedCount || 0} / ${c.maxClaims || 1}</div>
             </div>
             <div style="display: flex; gap: 6px;">
               <button type="button" class="chip" onclick='showQRCard(${JSON.stringify(JSON.stringify(c))})'>Show QR</button>

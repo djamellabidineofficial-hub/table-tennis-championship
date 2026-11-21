@@ -1,8 +1,8 @@
 {
-  "name": "six-clubs-chess-championship",
+  "name": "six-clubs-pingpong-championship",
   "version": "1.0.0",
   "private": true,
-  "description": "Six Clubs Chess Championship Competition Platform with Match QR Scans, Rules, Live Standings, and Arbiter Console",
+  "description": "Six Clubs Ping Pong Championship Competition Platform with Match QR Scans, Rules, Live Standings, and Referee Console",
   "scripts": {
     "start": "node local-server.js",
     "export": "node export_excel.js"

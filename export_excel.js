@@ -23,11 +23,10 @@ function generateExcelDatabase() {
         id: val.id,
         username: val.username,
         name: val.name,
-        emblem: val.emblem || '♟',
+        emblem: val.emblem || '🏓',
         points: 0,
         played: 0,
         wins: 0,
-        draws: 0,
         losses: 0,
         pendingPoints: 0,
         pendingScans: 0,
@@ -35,11 +34,6 @@ function generateExcelDatabase() {
         lastScanTimestamp: 0,
       };
     }
-  }
-
-  // If no clubs are registered, do not generate fake placeholder clubs
-  if (Object.keys(clubs).length === 0) {
-    // Empty database
   }
 
   // 2. Gather match scans
@@ -52,11 +46,10 @@ function generateExcelDatabase() {
           id: val.clubId || u,
           username: u,
           name: val.clubName || u,
-          emblem: val.clubEmblem || '♟',
+          emblem: val.clubEmblem || '🏓',
           points: 0,
           played: 0,
           wins: 0,
-          draws: 0,
           losses: 0,
           pendingPoints: 0,
           pendingScans: 0,
@@ -72,10 +65,8 @@ function generateExcelDatabase() {
       if (val.status === 'confirmed') {
         club.points += pts;
         club.played += 1;
-        if (pts === 2 || val.outcome === 'win') {
+        if (pts >= 1 || val.outcome === 'win') {
           club.wins += 1;
-        } else if (pts === 1 || val.outcome === 'draw') {
-          club.draws += 1;
         } else {
           club.losses += 1;
         }
@@ -93,8 +84,8 @@ function generateExcelDatabase() {
         id: val.id || key.replace('wins/', ''),
         username: val.username,
         clubName: club.name,
-        challenge: val.challenge || 'Chess Match',
-        outcome: (val.outcome || (pts === 2 ? 'WIN' : pts === 1 ? 'DRAW' : 'MATCH')).toUpperCase(),
+        challenge: val.challenge || 'Ping Pong Match',
+        outcome: (val.outcome || (pts >= 1 ? 'WIN' : 'MATCH')).toUpperCase(),
         points: pts,
         status: (val.status || 'confirmed').toUpperCase(),
         date: scanDate,
@@ -103,8 +94,8 @@ function generateExcelDatabase() {
     }
   }
 
-  // Sort clubs: points desc, wins desc, draws desc, name asc
-  const sortedClubs = Object.values(clubs).sort((a, b) => b.points - a.points || b.wins - a.wins || a.name.localeCompare(b.name));
+  // Sort clubs: points desc, wins desc, played asc, name asc
+  const sortedClubs = Object.values(clubs).sort((a, b) => b.points - a.points || b.wins - a.wins || a.played - b.played || a.name.localeCompare(b.name));
   sortedClubs.forEach((c, idx) => {
     c.rank = idx + 1;
     c.winRate = c.played > 0 ? ((c.wins / c.played) * 100).toFixed(1) + '%' : '0.0%';
@@ -122,8 +113,7 @@ function generateExcelDatabase() {
     'Username',
     'Total Points',
     'Matches Played',
-    'Wins (+2 pts)',
-    'Draws (+1 pt)',
+    'Wins (+1 pt)',
     'Losses (0 pts)',
     'Win Rate',
     'Pending Points',
@@ -138,7 +128,6 @@ function generateExcelDatabase() {
       c.points,
       c.played,
       c.wins,
-      c.draws,
       c.losses,
       `"${c.winRate}"`,
       c.pendingPoints,
@@ -157,7 +146,7 @@ function generateExcelDatabase() {
     'Match Title',
     'Outcome',
     'Points',
-    'Arbiter Status',
+    'Referee Status',
     'Date & Time',
   ].map((h) => `"${h}"`).join(',') + '\r\n';
 
@@ -193,19 +182,19 @@ function generateExcelDatabase() {
   <Style ss:ID="Header">
    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
    <Borders>
-    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#D4AF37"/>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#79AE44"/>
    </Borders>
    <Font ss:FontName="Segoe UI" ss:Size="11" ss:Color="#FFFFFF" ss:Bold="1"/>
    <Interior ss:Color="#1E293B" ss:Pattern="Solid"/>
   </Style>
   <Style ss:ID="TitleStyle">
    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
-   <Font ss:FontName="Segoe UI" ss:Size="14" ss:Color="#D4AF37" ss:Bold="1"/>
+   <Font ss:FontName="Segoe UI" ss:Size="14" ss:Color="#79AE44" ss:Bold="1"/>
    <Interior ss:Color="#0F172A" ss:Pattern="Solid"/>
   </Style>
   <Style ss:ID="RankGold">
    <Alignment ss:Horizontal="Center"/>
-   <Font ss:FontName="Segoe UI" ss:Bold="1" ss:Color="#D4AF37"/>
+   <Font ss:FontName="Segoe UI" ss:Bold="1" ss:Color="#79AE44"/>
   </Style>
   <Style ss:ID="Centered">
    <Alignment ss:Horizontal="Center"/>
@@ -214,7 +203,7 @@ function generateExcelDatabase() {
    <Font ss:FontName="Segoe UI" ss:Bold="1"/>
   </Style>
  </Styles>
- <Worksheet ss:Name="Six Clubs Championship">
+ <Worksheet ss:Name="Six Clubs Ping Pong">
   <Table>
    <Column ss:Width="50"/>
    <Column ss:Width="200"/>
@@ -223,11 +212,10 @@ function generateExcelDatabase() {
    <Column ss:Width="70"/>
    <Column ss:Width="70"/>
    <Column ss:Width="70"/>
-   <Column ss:Width="70"/>
    <Column ss:Width="90"/>
    <Column ss:Width="160"/>
    <Row ss:Height="32">
-    <Cell ss:MergeAcross="9" ss:StyleID="TitleStyle"><Data ss:Type="String">CHESS CHAMPIONSHIP - OFFICIAL STANDINGS (6 CLUBS)</Data></Cell>
+    <Cell ss:MergeAcross="8" ss:StyleID="TitleStyle"><Data ss:Type="String">PING PONG CHAMPIONSHIP - OFFICIAL STANDINGS (6 CLUBS)</Data></Cell>
    </Row>
    <Row ss:Height="26">
     <Cell ss:StyleID="Header"><Data ss:Type="String">Rank</Data></Cell>
@@ -235,8 +223,7 @@ function generateExcelDatabase() {
     <Cell ss:StyleID="Header"><Data ss:Type="String">Username</Data></Cell>
     <Cell ss:StyleID="Header"><Data ss:Type="String">Total Points</Data></Cell>
     <Cell ss:StyleID="Header"><Data ss:Type="String">Played</Data></Cell>
-    <Cell ss:StyleID="Header"><Data ss:Type="String">Wins (+2)</Data></Cell>
-    <Cell ss:StyleID="Header"><Data ss:Type="String">Draws (+1)</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Wins (+1)</Data></Cell>
     <Cell ss:StyleID="Header"><Data ss:Type="String">Losses (0)</Data></Cell>
     <Cell ss:StyleID="Header"><Data ss:Type="String">Win Rate</Data></Cell>
     <Cell ss:StyleID="Header"><Data ss:Type="String">Last Match Time</Data></Cell>
@@ -251,7 +238,6 @@ function generateExcelDatabase() {
     <Cell ss:StyleID="BoldText"><Data ss:Type="Number">${c.points}</Data></Cell>
     <Cell ss:StyleID="Centered"><Data ss:Type="Number">${c.played}</Data></Cell>
     <Cell ss:StyleID="Centered"><Data ss:Type="Number">${c.wins}</Data></Cell>
-    <Cell ss:StyleID="Centered"><Data ss:Type="Number">${c.draws}</Data></Cell>
     <Cell ss:StyleID="Centered"><Data ss:Type="Number">${c.losses}</Data></Cell>
     <Cell ss:StyleID="Centered"><Data ss:Type="String">${c.winRate}</Data></Cell>
     <Cell><Data ss:Type="String">${escapeXml(c.lastScanTime)}</Data></Cell>
@@ -303,7 +289,7 @@ function generateExcelDatabase() {
 
   fs.writeFileSync(path.join(__dirname, 'participants_database.xls'), xmlExcel, 'utf8');
   fs.writeFileSync(path.join(__dirname, 'public', 'participants_database.xls'), xmlExcel, 'utf8');
-  console.log('Generated Chess Tournament Excel & CSV reports.');
+  console.log('Generated Ping Pong Tournament Excel & CSV reports.');
 }
 
 function escapeXml(unsafe) {

@@ -86,7 +86,7 @@ const store = () => {
   return fallbackLocalStore;
 };
 
-const QR_SECRET = process.env.QR_SECRET || "chess_tournament_secret_key_2026";
+const QR_SECRET = process.env.QR_SECRET || "pingpong_tournament_secret_key_2026";
 
 const signResult = (id, outcome, points) =>
   crypto.createHmac("sha256", QR_SECRET).update(`${id}|${outcome}|${points}`).digest("hex").slice(0, 16);
@@ -109,27 +109,25 @@ const hashPassword = (password, salt = crypto.randomBytes(16).toString("hex")) =
 // Initially empty: Clubs appear as they register
 const DEFAULT_CLUBS = [];
 
-const DEFAULT_CONDITIONS = `### Official Six-Clubs Championship Regulations
+const DEFAULT_CONDITIONS = `### Official Six-Clubs Ping Pong Championship Regulations (Single Table)
 
 #### 1. Scoring System
-- **Victory (Win)**: **+2 Points** awarded to the winning club.
-- **Draw**: **+1 Point** awarded to each competing club.
+- **Match Victory (Win)**: **+1 Point** awarded to the winning club on the live leaderboard.
 - **Defeat (Loss)**: **0 Points** awarded.
+- **No Draws**: In table tennis / ping pong, every match ends in a decisive winner. There are no draws.
 
-#### 2. Match QR Code Procedure
-- Upon completion of each game, both players must cease play and call the **Activity Responsible / Arbiter**.
-- The Arbiter verifies the board position, time, and game result:
-  - **For a Win**: The Arbiter presents the **Victory QR (+2 Points)** to the winning player to scan.
-  - **For a Draw**: The Arbiter presents the **Draw QR (+1 Point)** for **both players** to scan.
-  - **For a Loss**: No QR code is issued (0 points).
-- A **Win QR** code can only be scanned once.
-- A **Draw QR** code can be scanned at most twice (once by each of the two competing clubs).
+#### 2. Single Table Setup & Match Format
+- **Single Competition Table**: All 15 tournament matches take place on the single official table in sequence.
+- **Match Format**: Single set to 11 points per match (شوط وحيد في كل مباراة — first to reach 11 points wins).
+- **Deuce (Advantage)**: If the score reaches 10–10, play continues until one player achieves a 2-point lead (e.g., 12–10, 13–11).
+- **Service Rules**: Service alternates every 2 points (or every point after deuce). The ball must rest freely on an open flat palm and be tossed vertically at least 16 cm before being struck.
+- **No Volleys**: Players must allow the ball to bounce on their side before striking it.
+- **Free Hand**: The non-racket hand must not touch the table surface during rallies.
 
-#### 3. Fair Play & FIDE Tournament Rules
-- Touch-move rule strictly applies.
-- Mobile phones must remain silent and placed away from the board during active play.
-- All disputes, illegal moves, or clock malfunctions must be addressed directly to the Arbiter.
-- Only QR codes displayed by the official Activity Responsible are genuine and valid.`;
+#### 3. Match QR Code Protocol
+- At the conclusion of each match, the Table Referee confirms the result and presents the **Victory QR Code (+1 Point)** to the winning club to scan.
+- The winning club scans the QR code to submit their match victory. Points are credited to the leaderboard once verified.
+- Each club plays 1 match per round across 5 rotating rounds (total of 5 matches per club, 15 matches total on the table).`;
 
 async function listAll(prefix) {
   const s = store();
@@ -180,15 +178,15 @@ async function ensureClubsAndSettings() {
   }
 
   const settings = await s.get("settings/tournament", { type: "json" });
-  if (!settings) {
+  if (!settings || !settings.name || settings.name.includes("Chess")) {
     await s.setJSON("settings/tournament", {
-      name: "Six Clubs Chess Championship",
-      winPoints: 2,
-      drawPoints: 1,
+      name: "The Inter-Club Ping Pong Championship (6 Clubs)",
+      winPoints: 1,
+      drawPoints: 0,
       lossPoints: 0,
       autoConfirm: true,
       conditions: DEFAULT_CONDITIONS,
-      announcement: "Welcome to the Six Clubs Chess Championship! Log in with your club account to view conditions and scan match QR codes.",
+      announcement: "Welcome to the Six Clubs Ping Pong Championship! Log in with your club account to view conditions and scan match QR codes.",
       updatedAt: Date.now(),
     });
   }
@@ -207,6 +205,7 @@ function isAdmin(event) {
   return (
     safeEqual(token, configured) ||
     safeEqual(token, "eco-aware can access the admin mode") ||
+    safeEqual(token, "pingpong-admin") ||
     safeEqual(token, "chess-admin") ||
     safeEqual(token, "admin") ||
     safeEqual(token, "admin123")
@@ -219,8 +218,8 @@ async function createSession(username, clubData = {}) {
     username,
     clubId: clubData.id || clubData.clubId || username,
     clubName: clubData.name || username,
-    clubEmblem: clubData.emblem || "♟",
-    clubColor: clubData.color || "#F59E0B",
+    clubEmblem: clubData.emblem || "🏓",
+    clubColor: clubData.color || "#79AE44",
     createdAt: Date.now(),
   };
   await store().setJSON(`sessions/${token}`, sessionData);
@@ -277,9 +276,9 @@ exports.handler = async (event) => {
     // GET /api/conditions -> Tournament conditions, scoring & announcements
     if (method === "GET" && route === "conditions") {
       const settings = (await s.get("settings/tournament", { type: "json" })) || {
-        name: "Six Clubs Chess Championship",
-        winPoints: 2,
-        drawPoints: 1,
+        name: "The Inter-Club Ping Pong Championship (6 Clubs)",
+        winPoints: 1,
+        drawPoints: 0,
         lossPoints: 0,
         conditions: DEFAULT_CONDITIONS,
         announcement: "",
@@ -311,7 +310,7 @@ exports.handler = async (event) => {
 
       const attempt = hashPassword(password, user.salt);
       if (!safeEqual(attempt.hash, user.hash)) {
-        return json(401, { error: "Incorrect password. If using a default club, default password is: chess123" });
+        return json(401, { error: "Incorrect password. Please check your club password." });
       }
 
       const clubInfo = club || (await s.get(`clubs/${user.clubId || user.username}`, { type: "json" })) || user;
@@ -323,8 +322,8 @@ exports.handler = async (event) => {
         club: {
           id: clubInfo.id || user.username,
           name: clubInfo.name || user.username,
-          emblem: clubInfo.emblem || "♟",
-          color: clubInfo.color || "#F59E0B",
+          emblem: clubInfo.emblem || "🏓",
+          color: clubInfo.color || "#79AE44",
           slot: clubInfo.slot || "",
         },
       });
@@ -441,11 +440,10 @@ exports.handler = async (event) => {
           clubId: c.id,
           username: c.username,
           name: c.name,
-          emblem: c.emblem,
+          emblem: c.emblem || "🏓",
           color: c.color,
           points: 0,
           wins: 0,
-          draws: 0,
           losses: 0,
           played: 0,
           recentMatches: [],
@@ -467,36 +465,26 @@ exports.handler = async (event) => {
             clubId: w.clubId || u,
             username: u,
             name: w.clubName || u,
-            emblem: w.clubEmblem || "♟",
-            color: "#F59E0B",
+            emblem: w.clubEmblem || "🏓",
+            color: "#79AE44",
             points: 0,
             wins: 0,
-            draws: 0,
             losses: 0,
             played: 0,
             recentMatches: [],
           };
         }
 
-        const pts = Number(w.points) || 0;
+        const pts = Number(w.points) || 1;
         stats[u].points += pts;
         stats[u].played += 1;
-
-        if (pts === 2 || w.outcome === "win") {
-          stats[u].wins += 1;
-          stats[u].recentMatches.push({ outcome: "W", pts: 2, title: w.challenge, time: w.createdAt });
-        } else if (pts === 1 || w.outcome === "draw") {
-          stats[u].draws += 1;
-          stats[u].recentMatches.push({ outcome: "D", pts: 1, title: w.challenge, time: w.createdAt });
-        } else {
-          stats[u].losses += 1;
-          stats[u].recentMatches.push({ outcome: "L", pts: 0, title: w.challenge, time: w.createdAt });
-        }
+        stats[u].wins += 1;
+        stats[u].recentMatches.push({ outcome: "W", pts, title: w.challenge, time: w.createdAt });
       }
 
-      // Sort clubs by: Points desc, Wins desc, Draws desc, Name asc
+      // Sort clubs by: Points desc, Wins desc, Matches played asc, Name asc
       const rows = Object.values(stats)
-        .sort((a, b) => b.points - a.points || b.wins - a.wins || b.draws - a.draws || a.name.localeCompare(b.name))
+        .sort((a, b) => b.points - a.points || b.wins - a.wins || a.played - b.played || a.name.localeCompare(b.name))
         .map((club, idx) => ({
           place: idx + 1,
           rank: idx + 1,
@@ -530,35 +518,28 @@ exports.handler = async (event) => {
       }
 
       // 2. CHECK FOR STANDARD TOURNAMENT QR CODES (Used for All 5 Rounds)
-      // Standard Win: CHESS-WIN-2PTS (or CHESS-WIN, WIN) -> +2 Points
-      // Standard Draw: CHESS-DRAW-1PT (or CHESS-DRAW, DRAW) -> +1 Point
+      // Standard Win: PINGPONG-WIN-1PT (also accepts PINGPONG-WIN, WIN, CHESS-WIN-2PTS for compatibility) -> +1 Point
       const cleanUpper = rawCode.trim().toUpperCase().replace(/\s+/g, "");
       const isStandardWin =
+        cleanUpper === "PINGPONG-WIN-1PT" ||
+        cleanUpper === "PINGPONG-WIN" ||
+        cleanUpper === "WIN" ||
+        cleanUpper === "PINGPONG:WIN" ||
+        cleanUpper.includes("PINGPONG-WIN-1PT") ||
         cleanUpper === "CHESS-WIN-2PTS" ||
         cleanUpper === "CHESS-WIN" ||
-        cleanUpper === "WIN" ||
-        cleanUpper === "CHESS:WIN" ||
-        cleanUpper.includes("CHESS-WIN-2PTS") ||
-        (parsed && (parsed.code === "CHESS-WIN-2PTS" || (parsed.type === "chess_standard" && parsed.outcome === "win")));
+        (parsed && (parsed.code === "PINGPONG-WIN-1PT" || parsed.outcome === "win"));
 
-      const isStandardDraw =
-        cleanUpper === "CHESS-DRAW-1PT" ||
-        cleanUpper === "CHESS-DRAW" ||
-        cleanUpper === "DRAW" ||
-        cleanUpper === "CHESS:DRAW" ||
-        cleanUpper.includes("CHESS-DRAW-1PT") ||
-        (parsed && (parsed.code === "CHESS-DRAW-1PT" || (parsed.type === "chess_standard" && parsed.outcome === "draw")));
-
-      if (isStandardWin || isStandardDraw) {
-        const outcome = isStandardWin ? "win" : "draw";
-        const points = isStandardWin ? 2 : 1;
-        const challengeId = isStandardWin ? "CHESS-WIN-2PTS" : "CHESS-DRAW-1PT";
+      if (isStandardWin) {
+        const outcome = "win";
+        const points = 1;
+        const challengeId = "PINGPONG-WIN-1PT";
 
         const allWins = await listAll("wins/");
         const clubId = user.clubId || user.username;
         const clubInfo = (await s.get(`clubs/${clubId}`, { type: "json" })) || {};
         const clubName = clubInfo.name || user.clubName || user.username;
-        const clubEmblem = clubInfo.emblem || user.clubEmblem || "♟";
+        const clubEmblem = clubInfo.emblem || user.clubEmblem || "🏓";
 
         // Find all previous non-rejected match records for this club across all 5 rounds
         const myClubScans = allWins.filter(
@@ -586,7 +567,7 @@ exports.handler = async (event) => {
         }
 
         const roundNum = myClubScans.length + 1;
-        const challengeTitle = `Round ${roundNum} ${outcome === "win" ? "Victory (+2 pts)" : "Draw (+1 pt)"}`;
+        const challengeTitle = `Round ${roundNum} Victory (+1 pt)`;
         const status = "pending";
 
         const winRecord = {
@@ -606,10 +587,7 @@ exports.handler = async (event) => {
 
         await s.setJSON(`wins/${winRecord.id}`, winRecord);
 
-        const celebrationMessage =
-          outcome === "win"
-            ? `VICTORY! +${points} Points recorded for ${clubName}. Points will appear on the Leaderboard once confirmed by the Arbiter.`
-            : `DRAW! +${points} Point recorded for ${clubName}. Points will appear on the Leaderboard once confirmed by the Arbiter.`;
+        const celebrationMessage = `VICTORY! +1 Point recorded for ${clubName}. Points will appear on the Leaderboard once confirmed by the Referee.`;
 
         return json(200, {
           ok: true,
@@ -650,30 +628,30 @@ exports.handler = async (event) => {
       }
 
       // If still not matched, check if it is a cryptographically signed quick code
-      // Format: CHESS:<OUTCOME>:<POINTS>:<ID>:<SIG>
+      // Format: PINGPONG:<OUTCOME>:<POINTS>:<ID>:<SIG> or CHESS:...
       let outcome = "win";
-      let points = 2;
-      let challengeTitle = "Chess Match";
+      let points = 1;
+      let challengeTitle = "Ping Pong Match";
       let challengeId = null;
 
       if (!matchedChallenge) {
-        if (parsed && parsed.sig && parsed.type === "chess_result") {
+        if (parsed && parsed.sig && (parsed.type === "pingpong_result" || parsed.type === "chess_result")) {
           const expectedSig = signResult(parsed.id, parsed.outcome, parsed.points);
           if (safeEqual(parsed.sig, expectedSig)) {
-            outcome = parsed.outcome === "draw" ? "draw" : "win";
-            points = parsed.outcome === "draw" ? 1 : 2;
-            challengeTitle = parsed.title || (outcome === "win" ? "Match Victory" : "Match Draw");
+            outcome = "win";
+            points = 1;
+            challengeTitle = parsed.title || "Match Victory";
             challengeId = parsed.id;
           }
-        } else if (rawCode.startsWith("CHESS:")) {
+        } else if (rawCode.startsWith("PINGPONG:") || rawCode.startsWith("CHESS:")) {
           const parts = rawCode.split(":");
           if (parts.length >= 5) {
             const [, pOutcome, pPoints, pId, pSig] = parts;
             const expectedSig = signResult(pId, pOutcome, pPoints);
             if (safeEqual(pSig, expectedSig)) {
-              outcome = pOutcome === "draw" ? "draw" : "win";
-              points = Number(pPoints) || (outcome === "draw" ? 1 : 2);
-              challengeTitle = outcome === "win" ? "Match Victory" : "Match Draw";
+              outcome = "win";
+              points = 1;
+              challengeTitle = "Match Victory";
               challengeId = pId;
             }
           }
@@ -681,19 +659,17 @@ exports.handler = async (event) => {
       } else {
         challengeId = matchedChallenge.id;
         challengeTitle = matchedChallenge.name;
-        outcome = matchedChallenge.outcome || (matchedChallenge.points === 1 ? "draw" : "win");
-        points = Number(matchedChallenge.points) || (outcome === "draw" ? 1 : 2);
+        outcome = "win";
+        points = Number(matchedChallenge.points) || 1;
       }
 
       if (!matchedChallenge && !challengeId) {
         return json(400, {
-          error: "Invalid or unrecognized QR code. Please make sure to scan the official code provided by the Arbiter.",
+          error: "Invalid or unrecognized QR code. Please make sure to scan the official code provided by the Referee.",
         });
       }
 
-      // Check max claims and duplicate scans
-      // A Win (+2) can only be scanned 1 time in total!
-      // A Draw (+1) can be scanned by up to 2 clubs (1 time per club)!
+      // Check max claims and duplicate scans (Each match victory can only be claimed 1 time)
       const allWins = await listAll("wins/");
       const existingScansForThisCode = allWins.filter((w) => w.challengeId === challengeId);
 
@@ -707,18 +683,14 @@ exports.handler = async (event) => {
         });
       }
 
-      const maxAllowedScans = outcome === "draw" ? 2 : 1;
-      if (existingScansForThisCode.length >= maxAllowedScans) {
+      if (existingScansForThisCode.length >= 1) {
         return json(400, {
-          error:
-            outcome === "draw"
-              ? "This Draw QR code has already been scanned by both participating clubs."
-              : "This Victory QR code has already been claimed by the winning club.",
+          error: "This Victory QR code has already been claimed by the winning club.",
         });
       }
 
       const settings = (await s.get("settings/tournament", { type: "json" })) || {};
-      const status = "pending"; // Pending arbiter confirmation before points are added to leaderboard
+      const status = "pending"; // Pending referee confirmation before points are added to leaderboard
 
       const clubInfo = (await s.get(`clubs/${user.clubId || user.username}`, { type: "json" })) || {};
 
@@ -727,7 +699,7 @@ exports.handler = async (event) => {
         username: user.username,
         clubId: user.clubId || user.username,
         clubName: clubInfo.name || user.clubName || user.username,
-        clubEmblem: clubInfo.emblem || user.clubEmblem || "♟",
+        clubEmblem: clubInfo.emblem || user.clubEmblem || "🏓",
         challengeId,
         challenge: challengeTitle,
         outcome,
@@ -746,10 +718,7 @@ exports.handler = async (event) => {
         await s.setJSON(`challenges/${matchedChallenge.id}`, matchedChallenge);
       }
 
-      const celebrationMessage =
-        outcome === "win"
-          ? `VICTORY! +${points} Points recorded for ${winRecord.clubName}. Points will appear on the Leaderboard once confirmed by the Arbiter.`
-          : `DRAW! +${points} Point recorded for ${winRecord.clubName}. Points will appear on the Leaderboard once confirmed by the Arbiter.`;
+      const celebrationMessage = `VICTORY! +${points} Point recorded for ${winRecord.clubName}. Points will appear on the Leaderboard once confirmed by the Referee.`;
 
       return json(200, {
         ok: true,
@@ -785,26 +754,26 @@ exports.handler = async (event) => {
         return json(401, { error: "Unauthorized: Invalid Arbiter/Admin token." });
       }
 
-      // POST /api/admin/generate-qr -> Arbiter generates a new match QR code
+      // POST /api/admin/generate-qr -> Referee generates a new match QR code
       if (method === "POST" && route === "admin/generate-qr") {
-        const outcome = body.outcome === "draw" ? "draw" : "win";
-        const points = outcome === "draw" ? 1 : 2;
+        const outcome = "win";
+        const points = 1;
         const round = String(body.round || "Round 1").trim();
-        const board = String(body.board || "Board 1").trim();
-        const title = String(body.title || `${round} - ${board} (${outcome.toUpperCase()})`).trim();
+        const table = String(body.table || body.board || "Table 1").trim();
+        const title = String(body.title || `${round} - ${table} (WIN)`).trim();
 
-        const matchId = `CHESS-${outcome.toUpperCase()}-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
+        const matchId = `PINGPONG-WIN-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
         const sig = signResult(matchId, outcome, points);
 
         // Standard JSON payload for the QR code
         const qrPayload = JSON.stringify({
-          type: "chess_result",
+          type: "pingpong_result",
           id: matchId,
           outcome,
           points,
           title,
           round,
-          board,
+          table,
           sig,
         });
 
@@ -814,10 +783,10 @@ exports.handler = async (event) => {
           outcome,
           points,
           round,
-          board,
+          table,
           referenceCode: matchId,
           payload: qrPayload,
-          maxScans: outcome === "draw" ? 2 : 1,
+          maxScans: 1,
           claimedCount: 0,
           claimedBy: [],
           sig,
@@ -830,7 +799,7 @@ exports.handler = async (event) => {
           ok: true,
           challenge,
           qrPayload,
-          message: `Generated QR code for ${title} (+${points} pts)`,
+          message: `Generated QR code for ${title} (+${points} pt)`,
         });
       }
 

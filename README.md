@@ -1,55 +1,54 @@
-# Six Clubs Chess Championship Platform
+# Six Clubs Ping Pong Championship Platform
 
-An official digital competition platform designed for the Inter-Club Chess Championship between six clubs.
+An official digital competition platform designed for the Inter-Club Table Tennis (Ping Pong) Championship between six competing clubs.
 
 ---
 
 ## Tournament Features
 
 1. **6 Competing Clubs Authentication & Sync**:
-   - Competing Clubs (T1 - T6):
-     - **T1: Royal Knights Club** (`club1`)
-     - **T2: Grandmaster Kings** (`club2`)
-     - **T3: Imperial Queens** (`club3`)
-     - **T4: Iron Rooks Club** (`club4`)
-     - **T5: Silver Bishops** (`club5`)
-     - **T6: Vanguard Pawns** (`club6`)
-   - Pre-configured accounts for all 6 clubs (default password: `chess123`).
-   - Dedicated Club Dashboard showing live standing rank, points, win/draw records, and match scan history.
+   - Competing Clubs (T1 – T6):
+     - **T1: Club 1**
+     - **T2: Club 2**
+     - **T3: Club 3**
+     - **T4: Club 4**
+     - **T5: Club 5**
+     - **T6: Club 6**
+   - Self-registration and login with slot assignment.
+   - Dedicated Club Dashboard showing live standing rank, points, win/loss records, matches played, and match scan history.
 
-2. **Official Conditions & Regulations**:
+2. **Official Conditions & Table Tennis Regulations**:
    - **Tournament Scoring System**:
-     - **Victory (Win)**: **+2 Points**
-     - **Draw**: **+1 Point**
-     - **Defeat (Loss)**: **0 Points**
-   - 5-Round Rotating League with different chess variants per round:
-     - Round 1: Classic (10 min)
-     - Round 2: Duck Chess
-     - Round 3: Giveaway Chess (Antichess)
-     - Round 4: 3-Check Chess
-     - Round 5: Physical Relay Chess
+     - **Victory (Win)**: **+1 Point** awarded to the winner on the live leaderboard.
+     - **Defeat (Loss)**: **0 Points** awarded.
+     - **No Draws**: In ping pong, every match ends in a decisive victory. There are no draws.
+   - **Match Format**:
+     - Single set to 11 points per match (first to reach 11 points wins).
+     - Deuce rule (at 10–10, must win by a 2-point lead).
+     - Service alternates every 2 points (or every 1 point after deuce). Legal 16 cm vertical palm toss.
+     - No volleys; free hand table contact fault rule; edge ball rules.
+   - **5-Round Rotating Schedule** (3 matches per round played sequentially on the single official table — 15 total tournament matches).
    - Dual-language support (English and Arabic).
-   - Step-by-step Activity Responsible & Arbiter QR protocol instructions.
+   - Step-by-step Activity Responsible & Referee QR protocol instructions.
 
 3. **Match QR Code Scanning**:
    - High-performance camera scanner with animated targeting reticle and instant feedback.
    - Fallback manual code entry.
    - Cryptographic verification, round validation, and duplicate claim prevention.
-   - **Arbiter Confirmation Workflow**: Scanned match points are held as pending until confirmed by the Arbiter before being added to the live leaderboard.
+   - **Referee Confirmation Workflow**: Scanned match points are held as pending until confirmed by the Referee before being added to the live leaderboard.
 
 4. **Live Leaderboard & 3-Pillar Podium**:
-   - Dynamic 3-pillar Olympic/FIDE chess podium for Top 3 clubs.
-   - Complete 6-club standings table with points and match records.
+   - Dynamic 3-pillar Olympic/Tournament podium for Top 3 clubs.
+   - Complete 6-club standings table with points, wins, matches played, and win rate.
    - Automatic live refresh every 10 seconds.
 
-5. **Arbiter / Admin Portal**:
-   - Permanent Standard QR Codes:
-     - `CHESS-WIN-2PTS` (+2 Points)
-     - `CHESS-DRAW-1PT` (+1 Point each)
-   - Custom Round & Board QR Generator.
+5. **Referee / Admin Portal**:
+   - Permanent Standard Tournament Winner QR Code:
+     - `PINGPONG-WIN-1PT` (+1 Point for winner; no draw code)
+   - Custom Round & Table QR Generator for single match codes.
    - Submissions log with instant Approve, Reject, and batch "Approve All Pending" actions.
    - Manual score adjustments (bonuses and penalties).
-   - 6 Clubs credentials manager.
+   - 6 Clubs credentials & rename manager.
    - One-click multi-sheet **Excel (.xls)** and **CSV** database export.
 
 ---
@@ -71,17 +70,9 @@ Then open your browser at:
 
 ---
 
-## Default Credentials
+## Admin Credentials
 
-- **The 6 Competing Clubs**:
-  - `club1` / `chess123` (T1 — Royal Knights)
-  - `club2` / `chess123` (T2 — Grandmaster Kings)
-  - `club3` / `chess123` (T3 — Imperial Queens)
-  - `club4` / `chess123` (T4 — Iron Rooks)
-  - `club5` / `chess123` (T5 — Silver Bishops)
-  - `club6` / `chess123` (T6 — Vanguard Pawns)
-
-- **Activity Responsible / Arbiter Token**:
+- **Activity Responsible / Referee Token**:
   - `eco-aware can access the admin mode` (configured in `.env`)
 
 ---
@@ -89,7 +80,7 @@ Then open your browser at:
 ## Project Structure
 
 ```
-Chess/
+ping pong/
 |-- .env                       # Tournament secrets
 |-- data.json                  # Persistent JSON database (clubs, scores, match codes)
 |-- export_excel.js            # Generator for Excel (.xls) and CSV tournament reports
@@ -103,8 +94,9 @@ Chess/
     |-- index.html             # Single-page tournament application
     |-- style.css              # Glassmorphic dark theme styling
     |-- app.js                 # Complete client-side tournament engine
-    |-- chess_logo.svg         # Official collaboration chess logo
-    |-- chess_logo.png         # High-resolution transparent chess logo
+    |-- pingpong_logo.svg      # Official collaboration table tennis paddles logo (vector)
+    |-- pingpong_logo.png      # High-resolution transparent ping pong logo (512x512)
+    |-- win_qr.svg             # Standard Match Winner (+1 pt) QR code
     |-- logo.png               # Main organizer club logo
     `-- vendor/
         |-- jsQR.js            # Client-side QR scanner library
@@ -123,5 +115,5 @@ This project is pre-configured for one-click deployment on Netlify:
 4. Netlify will automatically detect settings from `netlify.toml` (`publish = "public"`, `functions = "netlify/functions"`).
 5. Add your environment variables in Netlify Site Settings:
    - `QR_SECRET`: A secret string for QR code signing
-   - `ADMIN_TOKEN`: Your arbiter admin passphrase
+   - `ADMIN_TOKEN`: Your referee admin passphrase
 6. Click **Deploy**!

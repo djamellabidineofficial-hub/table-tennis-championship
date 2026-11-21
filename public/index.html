@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#171A1F">
-  <meta name="description" content="The 5-Variant Chess Gauntlet: Six Clubs Inter-Club Championship.">
+  <meta name="description" content="The Inter-Club Ping Pong Championship: Six Clubs League.">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>The 5-Variant Chess Gauntlet</title>
+  <title>The Inter-Club Ping Pong Championship</title>
   <link rel="icon" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap">
-  <link rel="stylesheet" href="style.css?v=20261121_17">
+  <link rel="stylesheet" href="style.css?v=20261121_25">
   <script defer src="vendor/qrcode.js"></script>
   <script defer src="vendor/jsQR.js"></script>
-  <script defer src="app.js?v=20261121_19"></script>
+  <script defer src="app.js?v=20261121_20"></script>
 </head>
 <body>
   <header class="hero compact-hero">
@@ -45,10 +45,10 @@
       <div class="brand-collab-logos">
         <img class="logo main-logo" src="logo.png" alt="Club logo" width="88" height="88">
         <span class="collab-x" aria-hidden="true">&times;</span>
-        <img class="logo chess-collab-logo" src="chess_logo.png?v=3" alt="Chess collaboration logo" width="78" height="78">
+        <img class="logo pingpong-collab-logo" src="pingpong_logo.png?v=20261121_25" alt="Ping Pong collaboration logo" width="98" height="98">
       </div>
       <h1 class="brand-title">
-        <span class="brand-gradient-text">CHESS ARENA</span>
+        <span class="brand-gradient-text">PING PONG ARENA</span>
       </h1>
     </div>
 
@@ -202,12 +202,12 @@
             <div id="club-dash-pts" style="font-size: 22px; font-weight: 800; color: var(--green);">0</div>
           </div>
           <div style="background: rgba(248, 250, 249, 0.04); border: 1px solid var(--line); border-radius: 14px; padding: 12px; text-align: center;">
-            <div style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Wins (+2)</div>
+            <div style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Wins (+1)</div>
             <div id="club-dash-wins" style="font-size: 22px; font-weight: 800;">0</div>
           </div>
           <div style="background: rgba(248, 250, 249, 0.04); border: 1px solid var(--line); border-radius: 14px; padding: 12px; text-align: center;">
-            <div style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Draws (+1)</div>
-            <div id="club-dash-draws" style="font-size: 22px; font-weight: 800;">0</div>
+            <div style="font-size: 11px; color: var(--muted); text-transform: uppercase;">Matches Played</div>
+            <div id="club-dash-played" style="font-size: 22px; font-weight: 800;">0</div>
           </div>
         </div>
 
@@ -227,7 +227,7 @@
         <div style="margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px;">
           <h3 style="font-size: 14px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px;">Your Club's Recorded Matches</h3>
           <div id="club-scans-log">
-            <p class="hint" style="text-align: center; margin: 8px 0;">No matches recorded yet. Call the arbiter after your game and scan your result!</p>
+            <p class="hint" style="text-align: center; margin: 8px 0;">No matches recorded yet. Call the referee after your match and scan your result!</p>
           </div>
         </div>
       </div>
@@ -251,123 +251,121 @@
         <!-- ENGLISH CONDITIONS CONTENT -->
         <div id="conditions-content-en">
           <div class="auth-header">
-            <h2 class="auth-title">The 5-Variant Chess Gauntlet</h2>
-            <p class="auth-subtitle">Welcome to the Inter-Club Chess Championship! Instead of standard slow chess, 6 clubs (T1–T6) compete simultaneously across <strong>5 fast-paced rounds</strong>, facing every other club once—and playing a <strong>different chess variant in every single round</strong>.</p>
+            <h2 class="auth-title">The Inter-Club Ping Pong Championship</h2>
+            <p class="auth-subtitle">Welcome to the Inter-Club Ping Pong (Table Tennis) Championship! 6 clubs (T1–T6) compete on the <strong>Single Official Competition Table</strong> across <strong>5 exciting rounds</strong> (3 sequential matches per round — 15 total tournament matches), facing every other club once to crown the champion.</p>
           </div>
 
-          <!-- Simple Points Matrix (Win / Draw / Loss) -->
-          <div class="points-matrix-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px;">
-            <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.35); border-radius: 14px; padding: 14px 10px; text-align: center;">
-              <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Win &bull; <span style="font-size: 11px;">فوز</span></div>
-              <div style="font-size: 22px; font-weight: 900; color: var(--green); margin-top: 2px; white-space: nowrap;">2 Points</div>
+          <!-- Simple Points Matrix (Win / Loss - No Draws) -->
+          <div class="points-matrix-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 22px;">
+            <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.35); border-radius: 14px; padding: 16px 12px; text-align: center;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Win</div>
+              <div style="font-size: 24px; font-weight: 900; color: var(--green); margin-top: 4px; white-space: nowrap;">1 Point</div>
+              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">Victory awarded per match</div>
             </div>
 
-            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 14px; padding: 14px 10px; text-align: center;">
-              <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Draw &bull; <span style="font-size: 11px;">تعادل</span></div>
-              <div style="font-size: 22px; font-weight: 900; color: #f59e0b; margin-top: 2px; white-space: nowrap;">1 Point</div>
-            </div>
-
-            <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid rgba(248, 250, 249, 0.12); border-radius: 14px; padding: 14px 10px; text-align: center;">
-              <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Loss &bull; <span style="font-size: 11px;">خسارة</span></div>
-              <div style="font-size: 22px; font-weight: 900; color: var(--muted); margin-top: 2px; white-space: nowrap;">0 Points</div>
+            <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid rgba(248, 250, 249, 0.12); border-radius: 14px; padding: 16px 12px; text-align: center;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">Loss</div>
+              <div style="font-size: 24px; font-weight: 900; color: var(--muted); margin-top: 4px; white-space: nowrap;">0 Points</div>
+              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">No draws in ping pong</div>
             </div>
           </div>
 
           <!-- Format & Structure Overview -->
           <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: 700; color: var(--snow); margin-bottom: 8px;">Tournament Format &amp; Structure</h3>
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--snow); margin-bottom: 8px;">Tournament Format &amp; Structure (Single Table)</h3>
             <ul style="padding-left: 20px; font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0;">
-              <li><strong>Structure:</strong> 5-Round Rotating League (3 matches played simultaneously per round).</li>
-              <li><strong>Time Control:</strong> 10 minutes per player (<strong>10 min</strong>) across all rounds.</li>
-              <li><strong>Rest Breaks:</strong> 3–4 minutes between Rounds 1–4, and a 5-minute break before the Round 5 finale.</li>
-              <li><strong>Tie-Breakers:</strong> If clubs finish tied on points after Round 5, rankings are decided by <strong>Head-to-Head result</strong>, followed by <strong>Total Wins</strong>.</li>
+              <li><strong>Single Table Setup:</strong> All matches are played on <strong>Table 1 (Single Official Court)</strong> in succession.</li>
+              <li><strong>Structure:</strong> 5-Round League (3 matches played sequentially per round, totaling 15 tournament matches).</li>
+              <li><strong>Match Format:</strong> Single Set per Match (First player/club to reach 11 points wins the match).</li>
+              <li><strong>Set Scoring:</strong> First player/club to reach <strong>11 points</strong> wins the match. In case of a 10–10 tie (Deuce), play continues until one side achieves a <strong>2-point lead</strong> (e.g., 12–10, 13–11).</li>
+              <li><strong>Rest Breaks:</strong> 2–3 minutes between consecutive matches to allow players to warm up.</li>
+              <li><strong>Tie-Breakers:</strong> If clubs finish tied on points after Round 5, rankings are decided by <strong>Head-to-Head result</strong>, followed by <strong>Total Wins</strong>, then point differential.</li>
             </ul>
           </div>
 
-          <!-- The 5 Variants (Round by Round) -->
-          <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">The 5 Variants (Round by Round)</h3>
+          <!-- Round by Round Table Layout -->
+          <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">The 5 Competition Rounds (Sequential on Table 1)</h3>
           <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             <!-- Round 1 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 1 — Classic (10 min)</div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Standard chess rules at 10 minutes per player. Checkmate or run your opponent out of time to win.</p>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 1 — Opening Clash (3 Sequential Matches)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Match 1 (T1 vs T6) &bull; Match 2 (T2 vs T5) &bull; Match 3 (T3 vs T4). Single set of 11 points on Table 1.</p>
             </div>
 
             <!-- Round 2 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 2 — Duck Chess</div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">Played with a physical "Duck" token on the board. On every turn, you make a normal chess move <strong>and then</strong> place the Duck on any empty square. Neither player can move through or land on the Duck.</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>Win Condition:</strong> There is no check or checkmate—you win by <strong>capturing the opponent's King</strong>. <em>(Special Rule: If you are stalemated with zero legal moves, you win).</em></div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 2 — Rotation Stage (3 Sequential Matches)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Match 1 (T5 vs T3) &bull; Match 2 (T1 vs T2) &bull; Match 3 (T6 vs T4). Single set of 11 points on Table 1.</p>
             </div>
 
             <!-- Round 3 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 3 — Giveaway Chess (Anti-Chess)</div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">Everything is reversed: your goal is to <strong>lose all of your pieces</strong> (or get stalemated).</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>Win Condition:</strong> <strong>Capturing is mandatory.</strong> If you can capture an opponent's piece, you must do so. Kings have no special value and can be captured just like any other piece.</div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 3 — Mid-Tournament Battle (3 Sequential Matches)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Match 1 (T4 vs T2) &bull; Match 2 (T5 vs T6) &bull; Match 3 (T3 vs T1). Single set of 11 points on Table 1.</p>
             </div>
 
             <!-- Round 4 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 4 — 3-Check Chess</div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">Played on physical boards with 3 check tokens per player. Standard chess rules apply, except there is a second way to win: be the <strong>first player to put your opponent's King in check 3 times</strong> (regular checkmate also wins).</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>Win Condition:</strong> Players must announce <strong>"Check"</strong> out loud to claim each check token from the referee. Delivering a false "Check" call results in a <strong>+1 minute</strong> time penalty for the opponent.</div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 4 — Championship Push (3 Sequential Matches)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Match 1 (T2 vs T6) &bull; Match 2 (T1 vs T4) &bull; Match 3 (T3 vs T5). Single set of 11 points on Table 1.</p>
             </div>
 
             <!-- Round 5 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-left: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 5 — Physical Relay Chess (The Finale)</div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">Standard chess rules with a physical twist: whenever you put your opponent in <strong>Check</strong>, the checked player <strong>cannot touch any chess piece</strong> until they sprint to their designated bell some meters away, ring it audibly so the referee hears it, and return to the board.</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>Win Condition:</strong> Deliver checkmate or win on the clock while balancing board strategy with sprint speed. (Checkmate ends the game immediately—no sprint required. Touching any piece before ringing the bell counts as an illegal move and awards +1 minute to the opponent).</div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">Round 5 — The Grand Finale (3 Sequential Matches)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">Match 1 (T1 vs T5) &bull; Match 2 (T6 vs T3) &bull; Match 3 (T4 vs T2). Single set of 11 points deciding the championship on Table 1!</p>
             </div>
           </div>
 
           <!-- Official Matchup Schedule Table -->
-          <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">Official Matchup Schedule</h3>
+          <div class="row between" style="align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0;">Official Matchup Schedule</h3>
+            <span class="badge confirmed" style="font-size: 11px;">Single Table (15 Matches in Order)</span>
+          </div>
           
           <div class="table-responsive">
             <table class="conditions-table">
               <thead>
                 <tr style="background: rgba(248, 250, 249, 0.08); border-bottom: 1px solid var(--line);">
                   <th style="padding: 8px 6px; white-space: nowrap;">Round</th>
-                  <th style="padding: 8px 6px; white-space: nowrap;">Variant</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 1</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 2</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 3</th>
+                  <th style="padding: 8px 6px; white-space: nowrap;">Format</th>
+                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 1 (Order 1)</th>
+                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 2 (Order 2)</th>
+                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">Match 3 (Order 3)</th>
                 </tr>
               </thead>
               <tbody>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">Round 1</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">Classic (10m)</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">Single Set (11 pts)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> vs <strong>T6</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T2</strong> vs <strong>T5</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T3</strong> vs <strong>T4</strong></td>
                 </tr>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">Round 2</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">Duck Chess</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">Single Set (11 pts)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T5</strong> vs <strong>T3</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> vs <strong>T2</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T6</strong> vs <strong>T4</strong></td>
                 </tr>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">Round 3</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">Giveaway</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">Single Set (11 pts)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T4</strong> vs <strong>T2</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T5</strong> vs <strong>T6</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T3</strong> vs <strong>T1</strong></td>
                 </tr>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">Round 4</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">3-Check</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">Single Set (11 pts)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T2</strong> vs <strong>T6</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> vs <strong>T4</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T3</strong> vs <strong>T5</strong></td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">Round 5</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">Relay Chess</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">Single Set (11 pts)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> vs <strong>T5</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T6</strong> vs <strong>T3</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T4</strong> vs <strong>T2</strong></td>
@@ -379,18 +377,17 @@
           <!-- COLLAPSIBLE GENERAL TOURNAMENT RULES & CONDUCT -->
           <details class="rules-accordion" open style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
             <summary style="font-size: 16px; font-weight: 800; color: var(--snow); cursor: pointer; padding-bottom: 6px;">
-              General Tournament Rules &amp; Conduct (Click to expand/collapse)
+              General Table Tennis Rules &amp; Conduct (Click to expand/collapse)
             </summary>
             <div style="margin-top: 12px; font-size: 13px; color: var(--muted); line-height: 1.7;">
               <ul style="padding-left: 18px; margin: 0;">
-                <li><strong>Clock &amp; Piece Handling (Same-Hand Rule):</strong> You must press the chess clock with the exact same hand you used to move your piece. Hovering over the clock or slamming it is not permitted.</li>
-                <li><strong>Completed Moves:</strong> A move is officially final once you press your clock.</li>
-                <li><strong>Illegal Moves:</strong> If a player completes an illegal move (including leaving their King in check in standard variants) and presses the clock, the referee will pause the game, restore the position, and award <strong>+1 minute</strong> to the opponent. A <strong>second completed illegal move</strong> in the same game results in an <strong>immediate forfeit</strong>.</li>
-                <li><strong>Knocked-Over Pieces:</strong> If you accidentally knock over pieces, you must fix them on your own clock time before pressing the clock.</li>
-                <li><strong>Standard Draws (Classic &amp; Relay Rounds):</strong> A game ends in a draw (1 point each) in the event of <strong>Stalemate</strong> (note: in Duck Chess, stalemate is a WIN for the trapped player), <strong>Threefold Repetition</strong> (the exact same board position occurring three times), the <strong>50-Move Rule</strong>, or <strong>Insufficient Material</strong> to checkmate.</li>
-                <li><strong>Calling Time ("Flagging"):</strong> A player wins on time when the opponent's clock hits 0:00, provided the winning player has sufficient material to deliver checkmate; otherwise, the game is a draw.</li>
-                <li><strong>Conduct &amp; Silence:</strong> Players must remain silent during active games. Trash-talking, distracting opponents, or receiving outside advice from spectators is strictly prohibited and will result in a point penalty or disqualification.</li>
-                <li><strong>Video Review:</strong> All physical boards are recorded by referees. In the event of a dispute over board state or clock presses, the referee's video review is final.</li>
+                <li><strong>Service Alternation:</strong> Service alternates every 2 points between players. When the score reaches 10–10 (Deuce), service alternates after every single point.</li>
+                <li><strong>Legal Service Toss:</strong> The ball must rest freely on an open, flat palm above table level. The ball must be tossed upward vertically at least 16 cm (6 inches) without spin, and struck as it falls so it bounces once in the server's court and then over the net into the receiver's court.</li>
+                <li><strong>Let Serve:</strong> If a served ball touches the net assembly and lands legally on the opponent's side, a "Let" is called and the serve is replayed without penalty.</li>
+                <li><strong>No Volleying (Air Hits):</strong> A player cannot hit the ball on the fly (before it has bounced on their side of the table). Striking the ball before it bounces forfeits the point immediately.</li>
+                <li><strong>Table &amp; Net Contact:</strong> A player's free hand (non-racket hand) must never touch the table surface during a rally. Touching the playing surface with the free hand or moving the table is a fault and awards the point to the opponent.</li>
+                <li><strong>Edge Balls:</strong> A ball that touches the top edge of the table surface is considered in play ("edge ball"). A ball that strikes the vertical side or underside of the table is out of bounds.</li>
+                <li><strong>Referee Authority &amp; Sportsmanship:</strong> Referees supervise all active tables. Respectful sportsmanship is required. Throwing rackets or unsporting conduct will result in a warning, point penalty, or match forfeit. The referee's decision on table calls is final.</li>
               </ul>
             </div>
           </details>
@@ -399,7 +396,7 @@
           <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.3); border-radius: 16px; padding: 16px;">
             <h4 style="font-size: 15px; font-weight: 800; color: var(--green); margin: 0 0 6px;">Activity Responsible &amp; QR Scan Protocol</h4>
             <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6;">
-              At the end of each game, the Activity Responsible / Arbiter presents the <strong>Victory QR Code (+2 pts)</strong> to the winner to scan, or the <strong>Draw QR Code (+1 pt)</strong> to both players in case of a draw. Points are credited to the live leaderboard once confirmed by the Arbiter.
+              At the end of each match, the Table Referee / Activity Responsible confirms the winner and presents the <strong>Victory QR Code (+1 pt)</strong> to the winning club to scan. Points are credited to the live leaderboard once confirmed by the Referee.
             </p>
           </div>
         </div>
@@ -407,123 +404,121 @@
         <!-- ARABIC CONDITIONS CONTENT (الترجمة العربية الكاملة) -->
         <div id="conditions-content-ar" dir="rtl" class="arabic-conditions" hidden>
           <div class="auth-header" style="text-align: right;">
-            <h2 class="auth-title">تحدي الشطرنج بالمتغيرات الخمسة</h2>
-            <p class="auth-subtitle">مرحباً بكم في بطولة الشطرنج المشتركة بين الأندية! بدلاً من الشطرنج الكلاسيكي البطيء، تتنافس 6 أندية <bdi dir="ltr">(T1–T6)</bdi> في وقت واحد عبر <strong>5 جولات سريعة وحماسية</strong>، يواجه فيها كل نادٍ جميع الأندية الأخرى—مع لعب <strong>متغير شطرنج مختلف في كل جولة</strong>.</p>
+            <h2 class="auth-title">بطولة تنس الطاولة بين الأندية</h2>
+            <p class="auth-subtitle">مرحباً بكم في بطولة تنس الطاولة (بينغ بونغ) الرسمية بين الأندية! تتنافس 6 أندية <bdi dir="ltr">(T1–T6)</bdi> على <strong>طاولة المنافسة الرسمية الوحيدة</strong> عبر <strong>5 جولات سريعة وحماسية</strong> (3 مباريات تُلعب بالتتابع على نفس الطاولة في كل جولة — بإجمالي 15 مباراة في البطولة)، يواجه فيها كل نادٍ جميع الأندية الأخرى لتحديد بطل البطولة.</p>
           </div>
 
-          <!-- Simple Points Matrix (Win / Draw / Loss) in Arabic -->
-          <div class="points-matrix-grid arabic-points-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px;">
-            <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.35); border-radius: 14px; padding: 12px 6px; text-align: center;">
-              <div style="font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em;">فوز <bdi dir="ltr">(Win)</bdi></div>
-              <div style="font-size: clamp(14px, 4vw, 19px); font-weight: 900; color: var(--green); margin-top: 2px;">نقطتان <bdi dir="ltr">(+2)</bdi></div>
+          <!-- Simple Points Matrix (Win / Loss - No Draws) in Arabic -->
+          <div class="points-matrix-grid arabic-points-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 22px;">
+            <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.35); border-radius: 14px; padding: 14px 10px; text-align: center;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em;">فوز</div>
+              <div style="font-size: clamp(16px, 4.5vw, 22px); font-weight: 900; color: var(--green); margin-top: 3px;">نقطة واحدة</div>
+              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">تُمنح للفائز في المباراة</div>
             </div>
 
-            <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 14px; padding: 12px 6px; text-align: center;">
-              <div style="font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em;">تعادل <bdi dir="ltr">(Draw)</bdi></div>
-              <div style="font-size: clamp(14px, 4vw, 19px); font-weight: 900; color: #f59e0b; margin-top: 2px;">نقطة <bdi dir="ltr">(+1)</bdi></div>
-            </div>
-
-            <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid rgba(248, 250, 249, 0.12); border-radius: 14px; padding: 12px 6px; text-align: center;">
-              <div style="font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em;">خسارة <bdi dir="ltr">(Loss)</bdi></div>
-              <div style="font-size: clamp(14px, 4vw, 19px); font-weight: 900; color: var(--muted); margin-top: 2px;">0 نقاط</div>
+            <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid rgba(248, 250, 249, 0.12); border-radius: 14px; padding: 14px 10px; text-align: center;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em;">خسارة</div>
+              <div style="font-size: clamp(16px, 4.5vw, 22px); font-weight: 900; color: var(--muted); margin-top: 3px;">0 نقاط</div>
+              <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">لا يوجد تعادل في البينغ بونغ</div>
             </div>
           </div>
 
           <!-- Format & Structure Overview in Arabic -->
           <div style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
-            <h3 style="font-size: 16px; font-weight: 700; color: var(--snow); margin-bottom: 8px;">نظام وبنية البطولة</h3>
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--snow); margin-bottom: 8px;">نظام وبنية البطولة (طاولة رسمية واحدة)</h3>
             <ul style="padding-right: 20px; padding-left: 0; font-size: 14px; color: var(--muted); line-height: 1.8; margin: 0;">
-              <li><strong>نظام البطولة:</strong> دوري تناوبي من 5 جولات (3 مباريات تُلعب بالتزامن في كل جولة).</li>
-              <li><strong>نظام الوقت:</strong> 10 دقائق لكل لاعب <bdi dir="ltr">(10 min)</bdi> عبر جميع الجولات.</li>
-              <li><strong>فترات الاستراحة:</strong> 3–4 دقائق بين الجولات 1–4، واستراحة 5 دقائق قبل الجولة الخامسة والنهائية.</li>
-              <li><strong>كسر التعادل:</strong> في حال تعادل الأندية بالنقاط بعد الجولة الخامسة، يُحسم الترتيب بنتيجة <strong>المواجهات المباشرة</strong>، ثم <strong>إجمالي مرات الفوز</strong>.</li>
+              <li><strong>طاولة واحدة للبطولة:</strong> تُلعب جميع مباريات البطولة الـ15 على <strong>الطاولة الرئيسية الرسمية (الطاولة 1)</strong> بالتتابع.</li>
+              <li><strong>نظام البطولة:</strong> دوري تناوبي من 5 جولات (3 مباريات متتالية في كل جولة).</li>
+              <li><strong>نظام المباريات:</strong> شوط وحيد في كل مباراة — الفائز بالشوط (11 نقطة) يفوز بالمباراة مباشرة ويحصل على نقطة واحدة.</li>
+              <li><strong>احتساب نقاط الشوط والمباراة:</strong> يُحسم الشوط والمباراة لأول من يصل إلى <strong>11 نقطة</strong>. في حال التعادل 10–10، يستمر اللعب حتى يتقدم أحد الطرفين بفارق <strong>نقطتين</strong> (مثل 12–10 أو 13–11).</li>
+              <li><strong>فترات الاستراحة:</strong> 2–3 دقائق بين المباريات المتتالية لمنح اللاعبين فرصة الإحماء والاستعداد.</li>
+              <li><strong>كسر التعادل:</strong> في حال تعادل الأندية بالنقاط بعد الجولة الخامسة، يُحسم الترتيب بنتيجة <strong>المواجهات المباشرة</strong>، ثم <strong>إجمالي مرات الفوز</strong>، ثم فارق النقاط المسجلة.</li>
             </ul>
           </div>
 
-          <!-- The 5 Variants (Round by Round) in Arabic -->
-          <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">المتغيرات الخمسة (جولة بجولة)</h3>
+          <!-- The 5 Rounds in Arabic -->
+          <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">جولات البطولة الخمس (تتابعاً على الطاولة الوحيدة)</h3>
           <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
             <!-- Round 1 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 1 — الشطرنج الكلاسيكي <bdi dir="ltr">(10 min)</bdi></div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">قواعد الشطرنج الرسمية القياسية بتوقيت سريع (10 دقائق لكل لاعب). الفوز عبر كش مات أو إسقاط وقت الخصم.</p>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 1 — الجولة الافتتاحية (3 مباريات متتالية)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">المباراة 1 (T1 ضد T6) • المباراة 2 (T2 ضد T5) • المباراة 3 (T3 ضد T4). شوط وحيد من 11 نقطة على الطاولة الرسمية.</p>
             </div>
 
             <!-- Round 2 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 2 — شطرنج البطة <bdi dir="ltr">(Duck Chess)</bdi></div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">تُلعب بمجسم "بطة" على الرقعة. في كل دور، تقوم بنقلة شطرنج عادية <strong>ثم</strong> تضع البطة على أي مربع فارغ. لا يجوز لأي لاعب القفز فوق البطة أو الوقوف على مربعها.</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>شرط الفوز:</strong> لا يوجد كش أو كش مات — الفوز يتحقق حصراً عبر <strong>أسر ملك الخصم</strong>. <em>(قاعدة خاصة: في حال انعدام أي نقلة قانونية لديك ووقوع البات، تُعتبر فائزاً).</em></div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 2 — مرحلة التدوير (3 مباريات متتالية)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">المباراة 1 (T5 ضد T3) • المباراة 2 (T1 ضد T2) • المباراة 3 (T6 ضد T4). شوط وحيد من 11 نقطة على الطاولة الرسمية.</p>
             </div>
 
             <!-- Round 3 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 3 — شطرنج التضحية <bdi dir="ltr">(Anti-Chess)</bdi></div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">كل القواعد معكوسة: هدفك الأساسي هو <strong>خسارة جميع قطعك</strong> والتخلص منها (أو الوصول للبات).</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>شرط الفوز:</strong> <strong>الأسر إجباري تماماً.</strong> إذا كان بإمكانك أكل أي قطعة للخصم، يجب عليك أكلها فوراً. الملوك ليس لها أي حصانة وتُؤسر كأي قطعة عادية.</div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 3 — مواجهات منتصف البطولة (3 مباريات متتالية)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">المباراة 1 (T4 ضد T2) • المباراة 2 (T5 ضد T6) • المباراة 3 (T3 ضد T1). شوط وحيد من 11 نقطة على الطاولة الرسمية.</p>
             </div>
 
             <!-- Round 4 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 4 — شطرنج الكشات الثلاث <bdi dir="ltr">(3-Check Chess)</bdi></div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">تُلعب على الرقع مع 3 بطاقات كش لكل لاعب. قواعد الشطرنج القياسية تطبق مع طريقة فوز إضافية: أول من يُعطي <strong>كش لملك الخصم 3 مرات</strong> يفوز فوراً (كش مات العادي يفوز أيضاً).</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>شرط الفوز:</strong> يجب على اللاعب إعلان <strong>"Check"</strong> بصوت مسموع لطلب بطاقة الكش من الحكم. الإعلان الخاطئ للكش يمنح الخصم عقوبة زمنية <strong>+1 دقيقة</strong> على ساعته.</div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 4 — حسم الصدارة (3 مباريات متتالية)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">المباراة 1 (T2 ضد T6) • المباراة 2 (T1 ضد T4) • المباراة 3 (T3 ضد T5). شوط وحيد من 11 نقطة على الطاولة الرسمية.</p>
             </div>
 
             <!-- Round 5 -->
             <div style="background: rgba(248, 250, 249, 0.04); border-right: 4px solid var(--green); border-radius: 12px; padding: 14px 18px;">
-              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 5 — شطرنج التتابع البدني (النهائي)</div>
-              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 6px;">قواعد الشطرنج الكلاسيكية مع تحدٍ بدني وسرعة: كلما وجهت <strong>كش</strong> لملك الخصم، <strong>يُمنع الخصم الواقع تحت الكش من لمس أي قطعة</strong> حتى يركض إلى الجرس المخصص له على بعد أمتار، ويدقه بصوت مسموع ليسمعه الحكم، ثم يعود إلى الرقعة.</p>
-              <div style="font-size: 13px; color: var(--snow); font-weight: 600;"><strong>شرط الفوز:</strong> تحقيق كش مات أو الفوز بسقوط وقت الخصم مع التوفيق بين خطة الرقعة وسرعة الركض. (كش مات ينهي المباراة فوراً دون الحاجة للركض. لمس أي قطعة قبل قرع الجرس يُعد نقلة غير قانونية وتمنح الخصم <bdi dir="ltr">+1 دقيقة</bdi> إضافية على ساعته).</div>
+              <div style="font-weight: 800; font-size: 16px; color: var(--green);">الجولة 5 — النهائي الكبير (3 مباريات متتالية)</div>
+              <p style="font-size: 13px; color: var(--muted); margin: 4px 0 0;">المباراة 1 (T1 ضد T5) • المباراة 2 (T6 ضد T3) • المباراة 3 (T4 ضد T2). الجولة الحاسمة بشوط وحيد لتحديد بطل البطولة على الطاولة الرسمية!</p>
             </div>
           </div>
 
           <!-- Official Matchup Schedule Table in Arabic -->
-          <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0 0 14px;">جدول المباريات الرسمي</h3>
+          <div class="row between" style="align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <h3 style="font-size: 18px; font-weight: 800; color: var(--snow); margin: 0;">جدول المباريات الرسمي</h3>
+            <span class="badge confirmed" style="font-size: 11px;">طاولة واحدة (15 مباراة متتالية)</span>
+          </div>
           
           <div class="table-responsive arabic-table-wrap">
             <table class="conditions-table arabic-table">
               <thead>
                 <tr style="background: rgba(248, 250, 249, 0.08); border-bottom: 1px solid var(--line);">
                   <th style="padding: 8px 6px; white-space: nowrap;">الجولة</th>
-                  <th style="padding: 8px 6px; white-space: nowrap;">المتغير</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 1</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 2</th>
-                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 3</th>
+                  <th style="padding: 8px 6px; white-space: nowrap;">النظام</th>
+                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 1 (تتابعاً)</th>
+                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 2 (تتابعاً)</th>
+                  <th style="padding: 8px 6px; text-align: center; white-space: nowrap;">المباراة 3 (تتابعاً)</th>
                 </tr>
               </thead>
               <tbody>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">الجولة 1</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">كلاسيكي (10 د)</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">شوط وحيد (11 ن)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> ضد <strong>T6</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T2</strong> ضد <strong>T5</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T3</strong> ضد <strong>T4</strong></td>
                 </tr>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">الجولة 2</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">شطرنج البطة</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">شوط وحيد (11 ن)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T5</strong> ضد <strong>T3</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> ضد <strong>T2</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T6</strong> ضد <strong>T4</strong></td>
                 </tr>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">الجولة 3</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">التضحية</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">شوط وحيد (11 ن)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T4</strong> ضد <strong>T2</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T5</strong> ضد <strong>T6</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T3</strong> ضد <strong>T1</strong></td>
                 </tr>
                 <tr style="border-bottom: 1px solid rgba(248, 250, 249, 0.04);">
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">الجولة 4</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">الكش 3</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">شوط وحيد (11 ن)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T2</strong> ضد <strong>T6</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> ضد <strong>T4</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T3</strong> ضد <strong>T5</strong></td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 6px; font-weight: 700; color: var(--green); white-space: nowrap;">الجولة 5</td>
-                  <td style="padding: 8px 6px; white-space: nowrap;">التتابع البدني</td>
+                  <td style="padding: 8px 6px; white-space: nowrap;">شوط وحيد (11 ن)</td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T1</strong> ضد <strong>T5</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T6</strong> ضد <strong>T3</strong></td>
                   <td style="padding: 8px 6px; text-align: center; white-space: nowrap;"><strong>T4</strong> ضد <strong>T2</strong></td>
@@ -535,28 +530,26 @@
           <!-- COLLAPSIBLE GENERAL TOURNAMENT RULES & CONDUCT in Arabic -->
           <details class="rules-accordion" open style="background: rgba(248, 250, 249, 0.03); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
             <summary style="font-size: 16px; font-weight: 800; color: var(--snow); cursor: pointer; padding-bottom: 6px;">
-              القواعد العامة وسلوك البطولة (اضغط للفتح/الإغلاق)
+              قواعد تنس الطاولة العامة وسلوك البطولة (اضغط للفتح/الإغلاق)
             </summary>
             <div style="margin-top: 12px; font-size: 13px; color: var(--muted); line-height: 1.8;">
               <ul style="padding-right: 18px; padding-left: 0; margin: 0;">
-                <li><strong>التعامل مع الساعة والقطع (قاعدة نفس اليد):</strong> يجب الضغط على ساعة الشطرنج بنفس اليد المستخدمة لتحريك القطعة. يُمنع تحويم اليد فوق الساعة مسبقاً أو ضربها بقوة.</li>
-                <li><strong>اكتمال النقلة:</strong> تُعتبر النقلة رسمية ونهائية بمجرد الضغط على الساعة.</li>
-                <li><strong>النقلات غير القانونية:</strong> إذا قام لاعب بنقلة غير قانونية (بما فيها ترك الملك مهدداً بالكش) وضغط الساعة، يُوقف الحكم المباراة فوراً، ويعيد الوضعية السابقة، ويمنح الخصم <strong>+1 دقيقة</strong> إضافية. النقلة غير القانونية الثانية في نفس المباراة تؤدي إلى <strong>الخسارة الفورية</strong>.</li>
-                <li><strong>سقوط القطع:</strong> إذا أسقطت قطعاً بالخطأ، يجب تعديلها وإعادتها لمكانها على وقت ساعتك الخاص قبل الضغط على الساعة.</li>
-                <li><strong>حالات التعادل الرسمية:</strong> تنتهي المباراة بالتعادل (نقطة واحدة لكل لاعب) في حالات: <strong>البات / المأزق</strong> (ملاحظة: في شطرنج البطة يعتبر البات فوزاً للمحاصر)، <strong>تكرار الوضعية 3 مرات</strong>، <strong>قاعدة الـ 50 نقلة</strong>، أو <strong>عدم كفاية القطع للمات</strong>.</li>
-                <li><strong>انتهاء الوقت ("Flagging"):</strong> يفوز اللاعب بالوقت عند وصول ساعة الخصم إلى 0:00 بشرط امتلاك قطع كافية لتنفيذ المات؛ وإلا تُعتبر تعادلاً.</li>
-                <li><strong>الهدوء والانضباط:</strong> يجب على اللاعبين التزام الصمت التام أثناء المباريات. يُمنع الكلام المشتت أو الاستفزازي أو تلقي نصائح خارجية من الجمهور منعاً باتاً تحت طائلة خصم نقاط أو الاستبعاد.</li>
-                <li><strong>مراجعة الفيديو:</strong> جميع الطاولات مسجلة بكاميرات الحكام. في حال أي نزاع على وضعية الرقعة أو ضغطات الساعة، فإن قرار الحكم بعد مراجعة الفيديو نهائي.</li>
+                <li><strong>قواعد الإرسال والتبديل:</strong> يتبادل اللاعبان الإرسال كل نقطتين. عند الوصول للتعادل 10–10، يتبادل اللاعبان الإرسال بعد كل نقطة واحدة.</li>
+                <li><strong>شروط الإرسال القانوني:</strong> يجب أن تستقر الكرة على كف اليد المفتوحة والمبسوطة فوق مستوى الطاولة. يتم قذف الكرة عمودياً لأعلى مسافة لا تقل عن 16 سم دون إعطائها دوراناً، وتُضرب أثناء هبوطها لتلمس ملعب المرسل أولاً ثم تمر فوق الشبكة لتلمس ملعب الخصم.</li>
+                <li><strong>إعادة الإرسال:</strong> إذا لمست الكرة الشبكة أثناء الإرسال وسقطت في ملعب الخصم بشكل صحيح، تُعلن إعادة الإرسال دون احتساب أي خطأ أو نقطة.</li>
+                <li><strong>منع الضرب المباشر في الهواء:</strong> يُمنع ضرب الكرة قبل أن ترتد على نصف طاولتك. لمس الكرة في الهواء يُفقدك النقطة فوراً لصالح الخصم.</li>
+                <li><strong>اليد الحرة وملامسة الطاولة:</strong> يُمنع تماماً ملامسة سطح الطاولة باليد الحرة (غير الممسكة بالمضرب) أثناء تبادل اللعب، أو تحريك الطاولة. لمس السطح باليد الحرة يمنح النقطة للخصم مباشرة.</li>
+                <li><strong>حواف الطاولة:</strong> الكرة التي تلمس الحافة العلوية لسطح الطاولة تُعتبر صحيحة وداخل الملعب. أما الكرة التي تلمس الجوانب العمودية أو الجزء السفلي فتقع خارج الملعب.</li>
+                <li><strong>الروح الرياضية وقرار الحكم:</strong> يشرف حكم الطاولة على مجريات اللعب على الطاولة الرسمية. يُمنع رمي المضارب أو الاعتراض غير اللائق؛ يترتب على السلوك غير الرياضي إنذار أو خصم نقاط أو الاستبعاد من المباراة. قرار حكم الطاولة نهائي.</li>
               </ul>
             </div>
           </details>
 
-          <!-- Activity Responsible QR Protocol in Arabic -->
+          <!-- Activity Responsible Protocol in Arabic -->
           <div style="background: rgba(121, 174, 68, 0.08); border: 1px solid rgba(121, 174, 68, 0.3); border-radius: 16px; padding: 16px;">
-            <h4 style="font-size: 15px; font-weight: 800; color: var(--green); margin: 0 0 6px;">بروتوكول مسؤول النشاط ومسح رمز الـ QR</h4>
+            <h4 style="font-size: 15px; font-weight: 800; color: var(--green); margin: 0 0 6px;">بروتوكول مسح رمز الفوز مع حكم الطاولة</h4>
             <p style="font-size: 13px; color: var(--muted); margin: 0; line-height: 1.7;">
-              عند نهاية كل مباراة، استدعِ مسؤول النشاط / الحكم إلى طاولتك.
-              يقوم المسؤول بعرض <strong>رمز QR الفوز <bdi dir="ltr">(+2 pts)</bdi></strong> للفائز، أو <strong>رمز QR التعادل <bdi dir="ltr">(+1 pt)</bdi></strong> لكلا اللاعبين. تُضاف النقاط إلى جدول الترتيب المباشر بمجرد تأكيد الحكم للنتيجة.
+              عند نهاية كل مباراة على الطاولة، يقوم حكم الطاولة أو مسؤول النشاط بتأكيد الفائز وعرض <strong>رمز الفوز (+1 نقطة)</strong> لمسحه من قِبل النادي الفائز. تُحتسب النقطة فوراً في جدول الترتيب المباشر بمجرد تأكيد الحكم للنتيجة.
             </p>
           </div>
         </div>
@@ -583,7 +576,7 @@
             <span class="result-tag success">CODE VERIFIED</span>
             <h3 class="result-title success" id="success-title">CONGRATULATIONS!</h3>
             <p class="result-desc" id="success-desc">The entered code is true and verified!</p>
-            <div class="result-pts-badge" id="success-points">+2 Points Earned!</div>
+            <div class="result-pts-badge" id="success-points">+1 Point Earned!</div>
           </div>
         </div>
 
@@ -612,7 +605,7 @@
 
         <div style="margin-bottom: 14px;">
           <h2 style="margin: 0;">Scan Match QR Code</h2>
-          <p style="margin: 4px 0 0; font-size: 13px; color: var(--muted);">Scan the QR code given by the Activity Responsible</p>
+          <p style="margin: 4px 0 0; font-size: 13px; color: var(--muted);">Scan the QR code given by the Activity Responsible / Referee</p>
         </div>
 
         <div class="actions">
@@ -648,7 +641,7 @@
         <span class="side-light-circle right" aria-hidden="true"></span>
         <div class="ranking-header">
           <div>
-            <h2 class="ranking-title">CHESS COMPETITION RANKING</h2>
+            <h2 class="ranking-title">PING PONG COMPETITION RANKING</h2>
             <p class="members-count" id="members-count">0 clubs registered</p>
           </div>
           <button type="button" id="refresh-leaderboard" class="pill-btn">Refresh</button>
@@ -672,7 +665,7 @@
         <span class="side-light-circle right" aria-hidden="true"></span>
         <div class="auth-header">
           <h2 class="auth-title">Admin Access</h2>
-          <p class="auth-subtitle">Activity Responsible / Arbiter Console</p>
+          <p class="auth-subtitle">Activity Responsible / Referee Console</p>
         </div>
         <form id="admin-login-form" class="auth-form">
           <div class="input-group">
@@ -696,7 +689,7 @@
       <!-- Admin Control Dashboard -->
       <div id="admin-area" hidden>
         <div class="row between">
-          <p style="margin: 0; font-weight: 700; color: var(--green);">Arbiter Admin Mode Active</p>
+          <p style="margin: 0; font-weight: 700; color: var(--green);">Referee Admin Mode Active</p>
           <div style="display: flex; gap: 8px; align-items: center;">
             <button type="button" id="refresh-admin" class="chip">Refresh</button>
             <button type="button" id="admin-logout" class="chip">Log out</button>
@@ -706,13 +699,13 @@
         <div class="row between" style="margin: 12px 0 16px; flex-wrap: wrap; gap: 10px;">
           <p style="margin: 0; font-size: 14px; color: var(--muted);">Database Export:</p>
           <div style="display: flex; gap: 8px;">
-            <a href="./participants_database.xls" download="chess_competition_standings.xls" class="chip" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <a href="./participants_database.xls" download="pingpong_competition_standings.xls" class="chip" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
               Excel (.xls)
             </a>
-            <a href="./participants_database.csv" download="chess_standings.csv" class="chip" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <a href="./participants_database.csv" download="pingpong_standings.csv" class="chip" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
               Standings CSV
             </a>
-            <a href="./game_scans_log.csv" download="chess_scans_log.csv" class="chip" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <a href="./game_scans_log.csv" download="pingpong_scans_log.csv" class="chip" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
               Scans Log CSV
             </a>
           </div>
@@ -726,11 +719,11 @@
           <div class="row between" style="flex-wrap: wrap; gap: 12px; margin-bottom: 6px;">
             <div>
               <h2 style="margin: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <span>Official Tournament QR Codes Station</span>
+                <span>Official Tournament QR Code Station</span>
                 <span class="badge confirmed" style="font-size: 11px; padding: 3px 10px;">Standard for All 5 Rounds</span>
               </h2>
               <p style="font-size: 13px; color: var(--muted); margin: 6px 0 0;">
-                The arbiter's two permanent standard QR codes for all rounds: <strong>Winner (+2 pts)</strong> and <strong>Draw (+1 pt each)</strong>. When players scan, points are awarded to the leaderboard automatically.
+                The referee's permanent standard QR code for all rounds: <strong>Match Winner (+1 pt)</strong>. When the winning club scans, points are awarded to the leaderboard automatically.
               </p>
             </div>
             <div>
@@ -740,60 +733,38 @@
             </div>
           </div>
 
-          <!-- Quick Arbiter Guide Banner -->
+          <!-- Quick Referee Guide Banner -->
           <div style="background: rgba(142, 191, 101, 0.08); border-left: 4px solid var(--green); border-radius: 12px; padding: 12px 16px; margin: 14px 0 20px; font-size: 12px; color: var(--snow); line-height: 1.6;">
-            <strong>Arbiter Instructions:</strong> Present these two standard QR codes at the tournament venue for all 5 rounds. When any match ends:
+            <strong>Referee Instructions:</strong> Present this standard QR code at the tournament tables for all 5 rounds. When any match ends:
             <ul style="margin: 4px 0 0; padding-left: 18px;">
-              <li>The <strong>Winner</strong> scans the green QR code to earn <strong>+2 points</strong> on the live leaderboard.</li>
-              <li>If the game ends in a <strong>Draw</strong>, both players scan the amber QR code to earn <strong>+1 point</strong> each.</li>
+              <li>The <strong>Winner</strong> scans the green QR code to earn <strong>+1 point</strong> on the live leaderboard.</li>
+              <li>In ping pong, every match ends in a decisive victory (no draws).</li>
               <li>Each club can record up to 5 match results (1 per round). The leaderboard updates immediately in real-time.</li>
             </ul>
           </div>
 
-          <!-- Dual Side-by-Side Permanent Standard QR Displays -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 20px; margin-bottom: 16px;">
+          <!-- Permanent Standard Winner QR Display (Single Prominent Card) -->
+          <div style="max-width: 420px; margin: 0 auto 16px;">
             
-            <!-- 1. Winner QR Box -->
-            <div style="background: #171A1F; border: 2px solid var(--green); border-radius: 20px; padding: 22px; text-align: center; box-shadow: 0 10px 30px -10px rgba(121, 174, 68, 0.35);">
+            <!-- Winner QR Box -->
+            <div style="background: #171A1F; border: 2px solid var(--green); border-radius: 20px; padding: 24px; text-align: center; box-shadow: 0 10px 30px -10px rgba(121, 174, 68, 0.35);">
               <span class="badge confirmed" style="font-size: 13px; font-weight: 800; padding: 6px 16px; letter-spacing: 0.5px;">
-                STANDARD WINNER (+2 POINTS)
+                MATCH WINNER (+1 POINT)
               </span>
               <h3 style="margin: 12px 0 4px; font-size: 16px; color: var(--snow);">All Rounds (1–5) Victory Code</h3>
-              <p style="font-size: 12px; color: var(--muted); margin: 0 0 14px;">Winning club scans to gain +2 points on the live leaderboard</p>
+              <p style="font-size: 12px; color: var(--muted); margin: 0 0 14px;">Winning club scans to gain +1 point on the live leaderboard</p>
               
               <div id="standard-win-holder" style="background: #ffffff; padding: 14px; border-radius: 16px; display: inline-block; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.5);">
-                <img src="./win_qr.svg" alt="Standard Winner QR Code" style="width: 190px; height: 190px; display: block; margin: 0 auto;">
+                <img src="./win_qr.svg" alt="Match Winner QR Code" style="width: 190px; height: 190px; display: block; margin: 0 auto;">
               </div>
               
               <div style="margin-bottom: 12px;">
-                <code id="standard-win-code" style="font-size: 14px; font-weight: 800; color: var(--green); background: rgba(0,0,0,0.6); padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(121, 174, 68, 0.3); letter-spacing: 1px; display: inline-block;">CHESS-WIN-2PTS</code>
+                <code id="standard-win-code" style="font-size: 14px; font-weight: 800; color: var(--green); background: rgba(0,0,0,0.6); padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(121, 174, 68, 0.3); letter-spacing: 1px; display: inline-block;">PINGPONG-WIN-1PT</code>
               </div>
               
               <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
                 <button type="button" class="chip" id="btn-copy-std-win" style="font-size: 12px; padding: 6px 14px;">Copy Code</button>
-                <a href="./win_qr.svg" download="chess_winner_qr_2pts.svg" class="chip" style="text-decoration: none; font-size: 12px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 4px;">Download QR</a>
-              </div>
-            </div>
-
-            <!-- 2. Draw QR Box -->
-            <div style="background: #171A1F; border: 2px solid #f59e0b; border-radius: 20px; padding: 22px; text-align: center; box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.35);">
-              <span class="badge pending" style="font-size: 13px; font-weight: 800; padding: 6px 16px; color: #f59e0b; border-color: #f59e0b; letter-spacing: 0.5px;">
-                STANDARD DRAW (+1 POINT EACH)
-              </span>
-              <h3 style="margin: 12px 0 4px; font-size: 16px; color: var(--snow);">All Rounds (1–5) Draw Code</h3>
-              <p style="font-size: 12px; color: var(--muted); margin: 0 0 14px;">Both clubs scan when a game draws to gain +1 pt each</p>
-              
-              <div id="standard-draw-holder" style="background: #ffffff; padding: 14px; border-radius: 16px; display: inline-block; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.5);">
-                <img src="./draw_qr.svg" alt="Standard Draw QR Code" style="width: 190px; height: 190px; display: block; margin: 0 auto;">
-              </div>
-              
-              <div style="margin-bottom: 12px;">
-                <code id="standard-draw-code" style="font-size: 14px; font-weight: 800; color: #f59e0b; background: rgba(0,0,0,0.6); padding: 6px 14px; border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.3); letter-spacing: 1px; display: inline-block;">CHESS-DRAW-1PT</code>
-              </div>
-              
-              <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-                <button type="button" class="chip" id="btn-copy-std-draw" style="font-size: 12px; padding: 6px 14px;">Copy Code</button>
-                <a href="./draw_qr.svg" download="chess_draw_qr_1pt.svg" class="chip" style="text-decoration: none; font-size: 12px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 4px;">Download QR</a>
+                <a href="./win_qr.svg" download="pingpong_winner_qr_1pt.svg" class="chip" style="text-decoration: none; font-size: 12px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 4px;">Download QR</a>
               </div>
             </div>
 
@@ -807,17 +778,17 @@
             <div style="margin-top: 14px;">
               <div class="form-grid-2">
                 <label>
-                  <span style="font-size: 13px; font-weight: 700; color: var(--snow);">Select Round &amp; Variant</span>
+                  <span style="font-size: 13px; font-weight: 700; color: var(--snow);">Select Round</span>
                   <select name="roundSelect" id="admin-round-select" style="width: 100%; padding: 12px; background: rgba(248, 250, 249, 0.05); border: 1px solid rgba(248, 250, 249, 0.18); border-radius: 14px; color: var(--snow); margin-top: 6px;">
-                    <option value="Round 1 (Classic 10 min)">Round 1 — Classic (10 min)</option>
-                    <option value="Round 2 (Duck Chess)">Round 2 — Duck Chess</option>
-                    <option value="Round 3 (Giveaway Chess)">Round 3 — Giveaway Chess</option>
-                    <option value="Round 4 (3-Check Chess)">Round 4 — 3-Check Chess</option>
-                    <option value="Round 5 (Physical Relay Chess)">Round 5 — Physical Relay Chess</option>
+                    <option value="Round 1 (Opening Clash)">Round 1 — Opening Clash</option>
+                    <option value="Round 2 (Rotation Stage)">Round 2 — Rotation Stage</option>
+                    <option value="Round 3 (Mid-Tournament Battle)">Round 3 — Mid-Tournament Battle</option>
+                    <option value="Round 4 (Championship Push)">Round 4 — Championship Push</option>
+                    <option value="Round 5 (The Grand Finale)">Round 5 — The Grand Finale</option>
                   </select>
                 </label>
                 <label>
-                  <span style="font-size: 13px; font-weight: 700; color: var(--snow);">Match / Board</span>
+                  <span style="font-size: 13px; font-weight: 700; color: var(--snow);">Match (Sequential on Table 1)</span>
                   <select name="matchSelect" id="admin-match-select" style="width: 100%; padding: 12px; background: rgba(248, 250, 249, 0.05); border: 1px solid rgba(248, 250, 249, 0.18); border-radius: 14px; color: var(--snow); margin-top: 6px;">
                     <option value="Match 1 (T1 vs T6)">Match 1 (T1 vs T6)</option>
                     <option value="Match 2 (T2 vs T5)">Match 2 (T2 vs T5)</option>
@@ -826,46 +797,16 @@
                 </label>
               </div>
 
-              <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; margin-top: 14px;">
-                <button type="button" class="btn" id="btn-admin-both-qr" style="background: var(--green); color: #171A1F; font-weight: 800; padding: 12px 14px; font-size: 13px;">
-                  GENERATE CUSTOM BOTH QR CODES
-                </button>
-                <button type="button" class="chip" id="btn-admin-win-qr" style="border-color: var(--green); color: var(--green); font-weight: 700; padding: 12px;">
-                  Win QR (+2)
-                </button>
-                <button type="button" class="chip" id="btn-admin-draw-qr" style="border-color: #f59e0b; color: #f59e0b; font-weight: 700; padding: 12px;">
-                  Draw QR (+1)
+              <div style="margin-top: 14px;">
+                <button type="button" class="btn" id="btn-admin-win-qr" style="background: var(--green); color: #171A1F; font-weight: 800; padding: 12px 18px; font-size: 13px; width: 100%;">
+                  GENERATE MATCH WINNER QR (+1 PT)
                 </button>
               </div>
 
-              <!-- Dual Custom Live QR Presentation Display -->
-              <div id="admin-dual-qr-card" style="margin-top: 16px; background: rgba(0, 0, 0, 0.45); border: 1px solid var(--line); border-radius: 20px; padding: 20px;" hidden>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--line); padding-bottom: 10px; flex-wrap: wrap; gap: 8px;">
-                  <h3 id="dual-match-header" style="margin: 0; font-size: 16px; color: var(--snow);">Custom Match QR Codes</h3>
-                  <button type="button" id="close-dual-qr" class="chip" style="padding: 2px 12px;">&times; Close</button>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
-                  <div style="background: rgba(121, 174, 68, 0.08); border: 2px solid var(--green); border-radius: 14px; padding: 14px; text-align: center;">
-                    <span class="badge confirmed">CUSTOM WINNER</span>
-                    <h4 id="dual-win-title" style="margin: 8px 0 4px; font-size: 14px; color: var(--snow);">-</h4>
-                    <div id="dual-win-holder" style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 8px;"></div>
-                    <div><code id="dual-win-code" style="font-size: 11px;">-</code></div>
-                    <button type="button" class="chip" id="btn-copy-dual-win" style="font-size: 11px; margin-top: 6px;">Copy</button>
-                  </div>
-                  <div style="background: rgba(245, 158, 11, 0.08); border: 2px solid #f59e0b; border-radius: 14px; padding: 14px; text-align: center;">
-                    <span class="badge pending" style="color: #f59e0b; border-color: #f59e0b;">CUSTOM DRAW</span>
-                    <h4 id="dual-draw-title" style="margin: 8px 0 4px; font-size: 14px; color: var(--snow);">-</h4>
-                    <div id="dual-draw-holder" style="background: #fff; padding: 10px; border-radius: 12px; display: inline-block; margin-bottom: 8px;"></div>
-                    <div><code id="dual-draw-code" style="font-size: 11px;">-</code></div>
-                    <button type="button" class="chip" id="btn-copy-dual-draw" style="font-size: 11px; margin-top: 6px;">Copy</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Single Custom Live QR Fallback Display -->
+              <!-- Single Custom Live QR Display -->
               <div id="admin-live-qr-card" style="margin-top: 16px; background: rgba(0, 0, 0, 0.4); border: 1.5px solid var(--green); border-radius: 16px; padding: 16px; text-align: center;" hidden>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                  <span id="live-qr-badge" class="badge confirmed">+2 Points Winner</span>
+                  <span id="live-qr-badge" class="badge confirmed">+1 Point Winner</span>
                   <button type="button" id="close-live-qr" class="chip" style="padding: 2px 10px;">&times; Close</button>
                 </div>
                 <h3 id="live-qr-title" style="margin: 0 0 10px; font-size: 16px; color: var(--snow);">-</h3>
@@ -918,28 +859,20 @@
 
   <!-- Fullscreen Projector Modal for Tournament QR Codes -->
   <div id="tournament-projector-modal" hidden style="position: fixed; inset: 0; background: rgba(10, 12, 16, 0.96); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(12px);">
-    <div style="background: #171A1F; border: 2px solid var(--line); border-radius: 24px; max-width: 860px; width: 100%; padding: 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.9); position: relative;">
+    <div style="background: #171A1F; border: 2px solid var(--line); border-radius: 24px; max-width: 520px; width: 100%; padding: 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.9); position: relative;">
       <button type="button" id="close-projector-modal" class="chip" style="position: absolute; top: 16px; right: 16px; font-size: 16px; padding: 4px 14px;">&times; Close</button>
       <div style="text-align: center; margin-bottom: 20px;">
-        <h2 style="margin: 0; font-size: 22px; color: var(--snow);">Inter-Club Chess Championship</h2>
-        <p style="margin: 4px 0 0; font-size: 13px; color: var(--muted);">Official Tournament QR Codes &bull; Standard for All 5 Rounds</p>
+        <h2 style="margin: 0; font-size: 22px; color: var(--snow);">Inter-Club Ping Pong Championship</h2>
+        <p style="margin: 4px 0 0; font-size: 13px; color: var(--muted);">Official Tournament QR Code &bull; Standard for All 5 Rounds</p>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; text-align: center;">
-        <div style="background: rgba(121, 174, 68, 0.08); border: 2px solid var(--green); border-radius: 18px; padding: 20px;">
-          <span class="badge confirmed" style="font-size: 13px; font-weight: 800; padding: 6px 16px;">WINNER (+2 PTS)</span>
-          <div id="projector-win-holder" style="background: #ffffff; padding: 12px; border-radius: 14px; display: inline-block; margin: 14px 0 10px;">
+      <div style="text-align: center;">
+        <div style="background: rgba(121, 174, 68, 0.08); border: 2px solid var(--green); border-radius: 18px; padding: 24px;">
+          <span class="badge confirmed" style="font-size: 13px; font-weight: 800; padding: 6px 16px;">WINNER (+1 PT)</span>
+          <div id="projector-win-holder" style="background: #ffffff; padding: 14px; border-radius: 14px; display: inline-block; margin: 16px 0 12px;">
             <img src="./win_qr.svg" alt="Standard Winner QR Code" style="width: 220px; height: 220px; display: block; margin: 0 auto;">
           </div>
-          <div><code style="font-size: 14px; font-weight: 800; color: var(--green);">CHESS-WIN-2PTS</code></div>
-          <p style="font-size: 12px; color: var(--muted); margin: 6px 0 0;">Winners scan here to add +2 pts to club</p>
-        </div>
-        <div style="background: rgba(245, 158, 11, 0.08); border: 2px solid #f59e0b; border-radius: 18px; padding: 20px;">
-          <span class="badge pending" style="font-size: 13px; font-weight: 800; padding: 6px 16px; color: #f59e0b; border-color: #f59e0b;">DRAW (+1 PT)</span>
-          <div id="projector-draw-holder" style="background: #ffffff; padding: 12px; border-radius: 14px; display: inline-block; margin: 14px 0 10px;">
-            <img src="./draw_qr.svg" alt="Standard Draw QR Code" style="width: 220px; height: 220px; display: block; margin: 0 auto;">
-          </div>
-          <div><code style="font-size: 14px; font-weight: 800; color: #f59e0b;">CHESS-DRAW-1PT</code></div>
-          <p style="font-size: 12px; color: var(--muted); margin: 6px 0 0;">Drawn players scan here to add +1 pt each</p>
+          <div><code style="font-size: 15px; font-weight: 800; color: var(--green);">PINGPONG-WIN-1PT</code></div>
+          <p style="font-size: 12px; color: var(--muted); margin: 6px 0 0;">Winners scan here to add +1 pt to club</p>
         </div>
       </div>
       <div style="text-align: center; margin-top: 20px;">
